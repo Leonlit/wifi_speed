@@ -51,17 +51,17 @@ class SpeedMonitor():
                     'time': time}
             return output
         except speedtest.SpeedtestBestServerFailure as ex:
-            msg = f"Failed to connect to the best Server, retrying....\n{ex}"
+            msg = f"Failed to connect to the best Server, retrying.... [{datetime.now()}]\n{ex}"
             print(msg)
             logToFile(msg)
             self.speedTester()
         except speedtest.ShareResultsConnectFailure as ex:
-            msg = f"time Out occured, re-trying\n{ex}"
+            msg = f"time Out occured, re-trying [{datetime.now()}]\n{ex}"
             print(msg)
             logToFile(msg)
             self.speedTester()
         except Exception as ex:
-            msg = f"Unknown error occured\n{ex}"
+            msg = f"Unknown error occured [{datetime.now()}]\n{ex}"
             print(msg)
             logToFile(msg)
             self.speedTester()
@@ -73,9 +73,9 @@ class SpeedMonitor():
                                     time=data["time"]))
             self.conn.commit()
         except sqlite3.DatabaseError as ex:
-            logToFile(f"Error occured when inserting data into Database ({data})\n{ex}")
+            logToFile(f"Error occured when inserting data into Database ({data}) [{datetime.now()}]\n{ex}")
         except Exception as ex:
-            logToFile(f"Unknown error occured \n{ex}")
+            logToFile(f"Unknown error occured [{datetime.now()}]\n{ex}")
 
     def runner(self):
         try:
