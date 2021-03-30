@@ -22,6 +22,11 @@ class SpeedMonitor():
         self.conn.commit()
 
     def speedTester(self):
+        null_output = {'downs': 0,
+                    'ups': 0,
+                    'time': datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+                    }
+
         servers = []
         threads = None
         resultString = ""
@@ -54,17 +59,17 @@ class SpeedMonitor():
             msg = f"Failed to connect to the best Server, retrying.... [{datetime.now()}]\n{ex}"
             print(msg)
             logToFile(msg)
-            self.speedTester()
+            return null_output
         except speedtest.ShareResultsConnectFailure as ex:
-            msg = f"time Out occured, re-trying [{datetime.now()}]\n{ex}"
+            msg = f"Time Out occured, re-trying [{datetime.now()}]\n{ex}"
             print(msg)
             logToFile(msg)
-            self.speedTester()
+            return null_output
         except Exception as ex:
             msg = f"Unknown error occured [{datetime.now()}]\n{ex}"
             print(msg)
             logToFile(msg)
-            self.speedTester()
+            return null_output
 
     def storeData(self, data):
         try:
@@ -78,14 +83,12 @@ class SpeedMonitor():
             logToFile(f"Unknown error occured [{datetime.now()}]\n{ex}")
 
     def runner(self):
-        try:
-            while True:
-                data = self.speedTester()
-                self.storeData(data)
-                print("Sleeping for 60 seconds")
-                time.sleep(60)
-        except KeyboardInterrupt:
-            print("exiting, hope the internet connection was great ;D")
+        while True:
+            data = self.speedTester()
+            self.storeData(data)
+            print("Sleeping for 60 seconds")
+            time.sleep(60)
+        print("exiting, hope the internet connection was great ;D")
 
 if __name__ == '__main__':
     speed_find = SpeedMonitor()
