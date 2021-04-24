@@ -42,11 +42,11 @@ class SpeedMonitor():
             
             data = int(results_dict['download']) / 1024 / 1000
             download = str("%.2f" % round(data, 2)) 
-            resultString = "download: " + str(data)
+            resultString = "download: " + download
 
             data = int(results_dict['upload']) / 1024 / 1000
             upload = str("%.2f" % round(data, 2))
-            resultString = resultString + ", upload: " + str(data)
+            resultString = resultString + ", upload: " + upload
             
             time = results_dict['timestamp'].split('.')[0]
 
@@ -73,7 +73,7 @@ class SpeedMonitor():
 
     def storeData(self, data):
         try:
-            self.cursor.execute("INSERT INTO wifi_speed VALUES ({downs},{ups},'{time}')".
+            self.cursor.execute("INSERT INTO wifi_speed VALUES ({ups},{down},'{time}')".
                                 format(downs=data["downs"], ups=data["ups"],
                                     time=data["time"]))
             self.conn.commit()
