@@ -73,7 +73,7 @@ class SpeedMonitor():
 
     def storeData(self, data):
         try:
-            self.cursor.execute("INSERT INTO wifi_speed VALUES ({ups},{down},'{time}')".
+            self.cursor.execute("INSERT INTO wifi_speed VALUES ({ups},{downs},'{time}')".
                                 format(downs=data["downs"], ups=data["ups"],
                                     time=data["time"]))
             self.conn.commit()
