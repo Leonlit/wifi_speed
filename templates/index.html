@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='description' content=''>
+        <meta name='keywords' content='HTMl, CSS, JS,'>
+        <meta name='author' content='Leon Lit'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='icon' type='image/png' href='.png'/>
+        <script src='/socket.io/socket.io.js'></script>
+        
+        <title>Wifi Monitor - {{ipAddr}}</title>
+
+        <link rel='stylesheet' href='.css'>
+    </head>
+    <body>
+        
+    </body>
+</html>
+<script src=''>
+    let socket = io();
+
+    socket.on('new_wifi_data', function(data) {
+        console.log(data);
+    });
+</script>
