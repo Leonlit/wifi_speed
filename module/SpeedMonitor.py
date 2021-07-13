@@ -40,7 +40,7 @@ class SpeedMonitor():
             resultString = resultString + ", upload: " + upload
 
             output_template['downs'] = download
-            output_template['downs'] = upload
+            output_template['ups'] = upload
             self.__db.storeData(output_template)
             print(output_template)
             return output_template

@@ -8,7 +8,7 @@
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
         <!--<link rel='icon' type='image/png' href='.png'/>-->
         <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
-        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
         <title>Wifi Monitor - {{ipAddr}}</title>
 
         <!--<link rel='stylesheet' href='.css'>-->
@@ -18,10 +18,28 @@
     </body>
 </html>
 <script>
-    (function () {
-        socket = io();
-        socket.on('new_wifi_data', function(data) {
-            console.log(data);
+    let socket;
+    $(document).ready(function() {
+        namespace = '/wifi_data';
+        console.log("test");
+
+        socket = io(namespace);
+
+        socket.on("connect_error", (err) => {
+            console.log(`connect_error due to ${err.message}`);
         });
+
+        socket.on('connect', function() {
+            console.log("test 2");
+            socket.emit('new_wifi_data', {
+                data: 'I\'m connected!'
+            });
+        });
+
+        socket.on("new_data", function(data){
+            console.log(data);
+        })
     })
+
+    
 </script>

@@ -6,4 +6,4 @@ def getIP():
     ip = s.getsockname()[0]
     print(ip)
     s.close()
-
+    return ip
