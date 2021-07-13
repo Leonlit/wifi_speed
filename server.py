@@ -6,7 +6,7 @@ from module.utilities import getIP
 
 from flask_socketio import SocketIO, emit
 from dotenv import load_dotenv
-from flask import Flask, render_template, send_from_directory, start_background_task
+from flask import Flask, render_template, send_from_directory, request
 
 app = Flask(__name__)
 load_dotenv()
@@ -18,6 +18,7 @@ socketio = SocketIO(app, logger=True)
 @app.route('/')
 def home_page():
     ip = getIP()
+    runner()
     return render_template("index.html", ipAddr=ip)
 
 # for providing js, css, media file and as well as media files
@@ -37,7 +38,6 @@ def route_Image_File(path):
 def route_External_File(path): 
     return send_from_directory('assets/external', path)
 
-
 def runner():
     timer = 30
     try:
@@ -47,12 +47,12 @@ def runner():
             print(data)
             emit("new_wifi_data",data)
             sleep(timer)
-    except KeyboardInterrupt:
+    except:
         print("exiting, hope the internet connection was great ;D")
 
 if __name__ == '__main__':
     try:
+        print(request.host_url)
         app.run(debug = False)
-        start_background_task(runner)
     except KeyboardInterrupt:
         print("Exiting the program.")
