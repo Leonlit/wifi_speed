@@ -1,5 +1,62 @@
 var chart;
 
+const defaultMode = {
+    maintainAspectRatio: false,
+    responsive: true,
+}
+
+const darkMode = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+        y: {
+            grid: {
+                color: 'grey',
+                borderColor: 'grey',
+                tickColor: 'white'
+            },
+            ticks: {
+                color: 'white',
+            },
+            title: {
+                color: 'white',
+                display: true,
+                text: 'Value'
+            }
+        },
+        x: {
+            grid: {
+                color: 'white',
+                borderColor: 'grey',
+                tickColor: 'white'
+            },
+            ticks: {
+                color: 'white',
+            },
+            title: {
+                color: 'white',
+                display: true,
+                text: 'Time'
+            }
+        }
+    },
+    plugins: {
+        legend: {
+            display:true,
+            labels: {
+                color: 'white'
+            }
+        },
+        title: {
+            display: true,
+            text: 'Speed Monitor',
+            color: 'white'
+        },
+        
+    }
+}
+
+
 function draw_chart(initialValue) {
     let ctx = document.getElementById("wifi_data_chart").getContext("2d");
     chart = new Chart(ctx, {
@@ -28,7 +85,7 @@ function draw_chart(initialValue) {
                     label: "Latency"
                 },
                 
-        ]
+            ]
         },
         options: {
             maintainAspectRatio: false,
@@ -40,6 +97,7 @@ function draw_chart(initialValue) {
 
 const limit = 30;
 function add_data (newData) {
+    console.log(chart);
     const data = chart.data;
     console.log(data);
     //remove first data in array if limit reached

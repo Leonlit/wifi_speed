@@ -1,5 +1,10 @@
+body {
+    background-color: black;
+}
+
 #title {
     text-align: center;
+    color: white;
 }
 
 #chartCont {
@@ -7,4 +12,3 @@
     height:60vh;
     padding:2.5%;
 }
-
