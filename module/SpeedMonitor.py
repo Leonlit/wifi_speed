@@ -42,7 +42,6 @@ class SpeedMonitor():
             output_template['downs'] = download
             output_template['ups'] = upload
             self.__db.storeData(output_template)
-            print(output_template)
             return output_template
         except speedtest.SpeedtestBestServerFailure as ex:
             msg = f"Failed to connect to the best Server, retrying...."

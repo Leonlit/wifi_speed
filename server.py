@@ -1,5 +1,4 @@
 import os
-from time import sleep
 
 from module.SpeedMonitor import SpeedMonitor
 from module.utilities import getIP
@@ -13,7 +12,7 @@ load_dotenv()
 
 key = os.getenv('KEY')
 app.config['SECRET_KEY'] = key
-socketio = SocketIO(app, logger=True)
+socketio = SocketIO(app)
 
 @app.route('/')
 def home_page():
@@ -22,11 +21,9 @@ def home_page():
 
 @socketio.on("new_wifi_data", namespace="/wifi_data")
 def wifi_data():
-    print("test")
     try:
         monitor = SpeedMonitor()
         data = monitor.real_time_monitor()
-        print(data)
         emit("new_data", data)
     except Exception as ex:
         print("Something broke")
