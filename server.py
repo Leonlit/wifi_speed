@@ -1,5 +1,5 @@
 import os
-
+from time import sleep
 from module.SpeedMonitor import SpeedMonitor
 from module.utilities import getIP
 
@@ -21,9 +21,11 @@ def home_page():
 
 @socketio.on("new_wifi_data", namespace="/wifi_data")
 def wifi_data():
+    timer = 5
     try:
         monitor = SpeedMonitor()
         data = monitor.real_time_monitor()
+        sleep(timer)
         emit("new_data", data)
     except Exception as ex:
         print("Something broke")
@@ -39,7 +41,7 @@ def route_CSS_File(path):
     return send_from_directory('assets/css', path)
 
 @app.route('/icon/<path:path>')
-def route_Image_File(path): 
+def route_Image_File(path):
     return send_from_directory('assets/icon', path)
 
 @app.route('/external/<path:path>')

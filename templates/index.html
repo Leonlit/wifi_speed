@@ -10,16 +10,20 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/icon/logo_32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/icon/logo_16.png">
         <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
         <title>Wifi Monitor - {{ipAddr}}</title>
-        <link rel='stylesheet' href='css/mobile.css'>
+        <link rel='stylesheet' href='/css/mobile.css'>
     </head>
     <body>
-        
+        <canvas id="wifi_data_chart"></canvas>
     </body>
 </html>
+
+<script src="/js/chartManagement.js"></script>
 <script>
     let socket;
+    let initial = true;
     $(document).ready(function() {
         namespace = '/wifi_data';
         socket = io(namespace);
@@ -35,6 +39,12 @@
 
         socket.on("new_data", function(data){
             console.log(data);
+            if (initial) {
+                draw_chart(data);
+                initial = false;
+            }else {
+                add_data(data)
+            }
             socket.emit('new_wifi_data');
         })
     })

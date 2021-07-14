@@ -2,7 +2,7 @@ import speedtest
 import module.dbManagement as dbM
 import collections
 
-from module.logger import logToFile
+from module.logger import log_to_file
 from datetime import datetime
 
 class SpeedMonitor():
@@ -13,8 +13,8 @@ class SpeedMonitor():
 
     def real_time_monitor(self):
         output_template = {
-            'downs': 0,
-            'ups': 0,
+            'down': 0,
+            'up': 0,
             'time': str(datetime.now())
         }
 
@@ -39,30 +39,30 @@ class SpeedMonitor():
             upload = str("%.2f" % round(data, 2))
             resultString = resultString + ", upload: " + upload
 
-            output_template['downs'] = download
-            output_template['ups'] = upload
-            self.__db.storeData(output_template)
+            output_template['down'] = download
+            output_template['up'] = upload
+            self.__db.store_data(output_template)
             return output_template
         except speedtest.SpeedtestBestServerFailure as ex:
             msg = f"Failed to connect to the best Server, retrying...."
             print(msg)
-            logToFile(msg, ex)
+            log_to_file(msg, ex)
             return output_template
         except speedtest.ShareResultsConnectFailure as ex:
             msg = f"Time Out occured, re-trying"
             print(msg)
-            logToFile(msg, ex)
+            log_to_file(msg, ex)
             return output_template
         except Exception as ex:
             msg = f"Unknown error occured"
             print(msg, ex)
-            logToFile(msg, ex)
+            log_to_file(msg, ex)
             return output_template
 
     def get_pass_data(self):
         print("Refreshing", datetime.now())
         try:
-            entries = self.__db.getData()               # get data from a sqlite3 db
+            entries = self.__db.get_data()               # get data from a sqlite3 db
             dates = []
             uploads = []
             downloads = []
@@ -74,5 +74,5 @@ class SpeedMonitor():
             data = dataTemplate(uploads, downloads, dates)
             return data
         except Exception as ex:
-            logToFile(f"Error occured when plotting chart", ex)
+            log_to_file(f"Error occured when plotting chart", ex)
             return
