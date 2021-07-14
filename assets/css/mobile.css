@@ -1,4 +1,10 @@
-#wifi_data_chart {
-    width:80%;
-    height:50%;
+#title {
+    text-align: center;
 }
+
+#chartCont {
+    width:95%;
+    height:60vh;
+    padding:2.5%;
+}
+

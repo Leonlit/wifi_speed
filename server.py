@@ -1,7 +1,6 @@
 import os
 from time import sleep
 from module.SpeedMonitor import SpeedMonitor
-from module.utilities import getIP
 
 from flask_socketio import SocketIO, emit
 from dotenv import load_dotenv
@@ -10,22 +9,25 @@ from flask import Flask, render_template, send_from_directory, request
 app = Flask(__name__)
 load_dotenv()
 
+initial = True
 key = os.getenv('KEY')
 app.config['SECRET_KEY'] = key
 socketio = SocketIO(app)
 
 @app.route('/')
 def home_page():
-    ip = getIP()
-    return render_template("index.html", ipAddr=ip)
+    return render_template("index.html")
 
 @socketio.on("new_wifi_data", namespace="/wifi_data")
 def wifi_data():
-    timer = 5
+    timer = 30
     try:
+        global initial
         monitor = SpeedMonitor()
         data = monitor.real_time_monitor()
-        sleep(timer)
+        if not initial:
+            sleep(timer)
+        initial = False
         emit("new_data", data)
     except Exception as ex:
         print("Something broke")

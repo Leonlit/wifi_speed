@@ -5,7 +5,7 @@ function draw_chart(initialValue) {
     chart = new Chart(ctx, {
         type: "line",
         data: {
-            labels: [initialValue["time"]],
+            labels: [format_date(initialValue["time"])],
             datasets: [
                 {
                     borderColor: ["#e69e88"],
@@ -40,9 +40,16 @@ function add_data (newData) {
     }
     //add new data into chart datasets
     if (data.datasets.length > 1) {
-        data.labels.push(newData["time"]);
+        data.labels.push(format_date(newData["time"]));
         data.datasets[0].data.push(newData["down"]);
         data.datasets[1].data.push(newData["up"]);
         chart.update();
     }
+}
+
+function format_date(date) {
+    date = date.split(" ")[1];
+    date = date.split(".")[0];
+    console.log(date);
+    return date;
 }
