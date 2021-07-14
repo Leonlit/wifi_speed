@@ -15,7 +15,9 @@ class SpeedMonitor():
         output_template = {
             'down': 0,
             'up': 0,
-            'time': str(datetime.now())
+            'time': str(datetime.now()),
+            'ping': 0,
+            'latency': 0
         }
 
         servers = []
@@ -30,7 +32,8 @@ class SpeedMonitor():
             speed.results.share()
 
             results_dict = speed.results.dict()
-            
+            print(results_dict)
+
             data = int(results_dict['download']) / 1024 / 1000
             download = str("%.2f" % round(data, 2)) 
             resultString = "download: " + download
@@ -39,8 +42,19 @@ class SpeedMonitor():
             upload = str("%.2f" % round(data, 2))
             resultString = resultString + ", upload: " + upload
 
+            data = int(results_dict["ping"])
+            ping = str("%.2f" % round(data, 2))
+            resultString = resultString + ", ping: " + ping
+
+            data = int(results_dict["server"]["latency"])
+            latency = str("%.2f" % round(data, 2))
+            resultString = resultString + ", ping: " + ping
+
+            print(resultString)
             output_template['down'] = download
             output_template['up'] = upload
+            output_template['ping'] = ping
+            output_template['latency'] = latency
             self.__db.store_data(output_template)
             return output_template
         except speedtest.SpeedtestBestServerFailure as ex:

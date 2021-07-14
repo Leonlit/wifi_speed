@@ -8,7 +8,7 @@ function draw_chart(initialValue) {
             labels: [format_date(initialValue["time"])],
             datasets: [
                 {
-                    borderColor: ["#e69e88"],
+                    borderColor: ["#A3BAFF"],
                     data: [initialValue["down"]],
                     label: "Download Speed"
                 },
@@ -16,6 +16,16 @@ function draw_chart(initialValue) {
                     borderColor: ["#a300cc"],
                     data: [initialValue["up"]],
                     label: "Upload Speed"
+                },
+                {
+                    borderColor: ["#e69e88"],
+                    data: [initialValue["ping"]],
+                    label: "Ping"
+                },
+                {
+                    borderColor: ["#fc2605"],
+                    data: [initialValue["latency"]],
+                    label: "Latency"
                 },
                 
         ]
@@ -37,12 +47,16 @@ function add_data (newData) {
         data.labels.shift()
         data.datasets[0].data.shift()
         data.datasets[1].data.shift()
+        data.datasets[2].data.shift()
+        data.datasets[3].data.shift()
     }
     //add new data into chart datasets
     if (data.datasets.length > 1) {
         data.labels.push(format_date(newData["time"]));
         data.datasets[0].data.push(newData["down"]);
         data.datasets[1].data.push(newData["up"]);
+        data.datasets[2].data.push(newData["ping"]);
+        data.datasets[3].data.push(newData["latency"]);
         chart.update();
     }
 }
