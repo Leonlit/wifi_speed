@@ -1,0 +1,64 @@
+#hamburgerMenu {
+    position: fixed;
+    left:5%;
+    top:5%;
+}
+
+#hamburgerMenu div{
+    width: 0;
+	height: 0;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-top: 25px solid #555;
+}
+
+nav {
+    position: fixed;
+    top:0;
+    left:0;
+    padding-top: 5%;
+    width: 100vw;
+    background-color: #f1f1f1;
+    transition: 0.5s;
+    padding-bottom: 20%;
+    text-align: center;
+}
+
+#navCloseBtn {
+    position: absolute;
+    bottom: 5%;
+    width: 0;
+	height: 0;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 25px solid #555;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+nav div {
+    margin-top:10%;
+}
+
+nav a {
+    font-size: 24px;
+    transition: 0.3s;
+    text-decoration: none;
+    color: black;
+}
+
+nav a:hover {
+    font-size: 26px;
+}
+
+#title {
+    margin-top: 20%;
+    text-align: center;
+    font-family: monospace;
+}
+
+#chartCont {
+    width:95%;
+    height:60vh;
+    padding:2.5%;
+}

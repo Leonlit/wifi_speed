@@ -1,5 +1,8 @@
+@media only screen and (min-width: 800px) {
+
 #title {
     text-align: center;
+    font-family: monospace;
 }
 
 #chartCont {
@@ -16,6 +19,7 @@
 }
 
 #filterCont {
+    margin-top: -10px;
     margin-left: 5%;
     min-width:700px;
     max-width: 800px;
@@ -36,4 +40,22 @@ label, #filterCont input {
 
 #filterBtn {
     float: right;
+}
+
+footer {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: monospace;
+    position: fixed;
+    right:3%;
+    bottom: 3%;
+    width:fit-content;
+    display: inline;
+    min-width:200px;
+}
+
+footer > span {
+    margin-left:2vw;
+}
+
 }

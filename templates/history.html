@@ -33,36 +33,5 @@
         </div>
     </body>
 </html>
-
 <script src="/js/chartManagement.js"></script>
 <script src="/js/userInteraction.js"></script>
-<script>
-    let socket;
-    let initial = true;
-    $(document).ready(function() {
-        namespace = '/wifi_data';
-        socket = io(namespace);
-
-        socket.on("connect_error", (err) => {
-            console.log(`connect_error due to ${err.message}`);
-        });
-
-        socket.on('connect', function() {
-            console.log("connected");
-            socket.emit('new_wifi_data')
-        });
-
-        socket.on("new_data", function(data){
-            console.log(data);
-            if (initial) {
-                draw_chart(data);
-                initial = false;
-            }else {
-                add_data(data)
-            }
-            socket.emit('new_wifi_data');
-        })
-    })
-
-    
-</script>

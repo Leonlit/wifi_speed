@@ -18,6 +18,10 @@ socketio = SocketIO(app)
 def home_page():
     return render_template("index.html")
 
+@app.route('/history/')
+def history_page():
+    return render_template("history.html")
+
 @socketio.on("new_wifi_data", namespace="/wifi_data")
 def wifi_data():
     timer = 30

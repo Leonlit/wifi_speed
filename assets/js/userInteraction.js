@@ -14,3 +14,13 @@ function toggle_theme() {
         addCSSFile("/css/", "darkTheme")
     }
 }
+
+function close_nav () {
+    const nav = document.getElementsByTagName("nav")[0];
+    nav.style.top = "-60%";
+}
+
+function open_nav () {
+    const nav = document.getElementsByTagName("nav")[0];
+    nav.style.top = "0";
+}
