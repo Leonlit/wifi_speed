@@ -13,12 +13,27 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
         <title>Wifi Monitor</title>
-        <link rel='stylesheet' href='/css/mobile.css'>
+        <link rel='stylesheet' href='/css/index.css'>
     </head>
     <body>
         <h1 id="title">WIFI Speed Monitor</h1>
         <div id="chartCont">
             <canvas id="wifi_data_chart"></canvas>
+        </div>
+        <div id="filterCont">
+            <div class="filterItem">
+                <label for="filterDate">Filter Date: </label>
+                <input type="date" id="startDate" class="filterInput"/>
+                <label> To: </label>
+                <input type="date" id="endDate" class="filterInput"/>
+            </div>
+            <div class="filterItem">
+                <label for="filterTime">Filter Time: </label>
+                <input type="time" id="startTime" class="filterInput"/>
+                <label> To: </label>
+                <input type="time" id="endTime" class="filterInput"/>
+            </div>
+            <button id="filterBtn">Filter</button>
         </div>
     </body>
 </html>
