@@ -57,7 +57,7 @@ const darkModeConfig = {
         title: {
             display: true,
             color: "white"
-        }
+        },
     },
 }
 

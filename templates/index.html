@@ -55,7 +55,7 @@
         socket.on("new_data", function(data){
             console.log(data);
             if (initial) {
-                draw_chart(data);
+                draw_chart(data, "Real time monitor");
                 initial = false;
             }else {
                 add_data(data)
