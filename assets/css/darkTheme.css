@@ -5,3 +5,7 @@ body {
 #title {
     text-align: center;
 }
+
+#hamburgerMenu div {
+    border-top: 25px solid white;
+}

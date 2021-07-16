@@ -10,11 +10,17 @@ function add_theme (file, name) {
 }
 
 function toggle_theme() {
+    const toggle = document.getElementById("themeToggle");
+    toggle.style.cssText = "";
     if (!darkMode) {
         add_theme("/css/darkTheme.css", "darkTheme")
+        toggle.style.left = "84%";
+        toggle.style.backgroundColor = "white";
         darkMode = true;
     }else {
         document.getElementById("darkmode").remove();
+        toggle.style.left = "0px";
+        toggle.style.backgroundColor = "black";
         darkMode = false;
     }
     update_chart_theme();
