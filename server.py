@@ -1,3 +1,4 @@
+from module.dbManagement import DBManagement
 import os
 from time import sleep
 from module.SpeedMonitor import SpeedMonitor
@@ -36,6 +37,14 @@ def wifi_data():
     except Exception as ex:
         print("Something broke")
         print(ex)
+
+@socketio.on("get_all_data", namespace="/wifi_data")
+def all_wifi_data():
+    db = DBManagement()
+    data = db.get_all_data()
+    db.close_connection()
+    emit("set_all_data", data )
+
 
 # for providing js, css, media file and as well as media files
 @app.route('/js/<path:path>')

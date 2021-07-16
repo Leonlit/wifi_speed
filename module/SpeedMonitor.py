@@ -12,10 +12,13 @@ class SpeedMonitor():
         self.__db = dbM.DBManagement()
 
     def real_time_monitor(self):
+        time = str(datetime.now()).split(".")[0]
+        time = time.split(" ")
         output_template = {
             'down': 0,
             'up': 0,
-            'time': str(datetime.now()),
+            'time': time[1],
+            'date': time[0],
             'ping': 0,
             'latency': 0
         }
@@ -48,7 +51,7 @@ class SpeedMonitor():
 
             data = int(results_dict["server"]["latency"])
             latency = str("%.2f" % round(data, 2))
-            resultString = resultString + ", ping: " + ping
+            resultString = resultString + ", latency: " + ping
 
             print(resultString)
             output_template['down'] = download
@@ -56,6 +59,7 @@ class SpeedMonitor():
             output_template['ping'] = ping
             output_template['latency'] = latency
             self.__db.store_data(output_template)
+            self.__db.close_connection()
             return output_template
         except speedtest.SpeedtestBestServerFailure as ex:
             msg = f"Failed to connect to the best Server, retrying...."

@@ -1,11 +1,18 @@
 var chart;
+let darkMode = false;
 
-const defaultMode = {
+const defaultModeConfig = {
     maintainAspectRatio: false,
     responsive: true,
+    plugins: {
+        title: {
+            display: true,
+            color: "black"
+        },
+    }
 }
 
-const darkMode = {
+const darkModeConfig = {
     maintainAspectRatio: false,
     responsive: true,
     scales: {
@@ -49,20 +56,25 @@ const darkMode = {
         },
         title: {
             display: true,
-            text: 'Speed Monitor',
-            color: 'white'
-        },
-        
-    }
+            color: "white"
+        }
+    },
 }
 
 
-function draw_chart(initialValue) {
+function draw_chart(initialValue, title) {
+    let config = defaultModeConfig;
+    config["plugins"]["title"]["text"] = title
+    if (darkMode) {
+        config = darkModeConfig;
+    }
+    
+
     let ctx = document.getElementById("wifi_data_chart").getContext("2d");
     chart = new Chart(ctx, {
         type: "line",
         data: {
-            labels: [format_date(initialValue["time"])],
+            labels: [initialValue["time"]],
             datasets: [
                 {
                     borderColor: ["#A3BAFF"],
@@ -87,11 +99,7 @@ function draw_chart(initialValue) {
                 
             ]
         },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        
+        options: config
     });
 }
 
@@ -110,7 +118,7 @@ function add_data (newData) {
     }
     //add new data into chart datasets
     if (data.datasets.length > 1) {
-        data.labels.push(format_date(newData["time"]));
+        data.labels.push(newData["time"]);
         data.datasets[0].data.push(newData["down"]);
         data.datasets[1].data.push(newData["up"]);
         data.datasets[2].data.push(newData["ping"]);
@@ -120,8 +128,20 @@ function add_data (newData) {
 }
 
 function format_date(date) {
+    console.log(date);
     date = date.split(" ")[1];
     date = date.split(".")[0];
     console.log(date);
     return date;
+}
+
+function update_chart_theme() {
+    if (chart.datasets.length > 1) {
+        let config = defaultModeConfig;
+        if (darkMode) {
+            config = darkModeConfig;
+        }
+        chart.data.options = config;
+        chart.update();
+    }
 }

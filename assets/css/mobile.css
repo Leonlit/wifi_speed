@@ -13,8 +13,9 @@
 }
 
 nav {
+    z-index: 10;
     position: fixed;
-    top:0;
+    top:-60%;
     left:0;
     padding-top: 5%;
     width: 100vw;
@@ -52,7 +53,7 @@ nav a:hover {
 }
 
 #title {
-    margin-top: 20%;
+    margin-top: 30%;
     text-align: center;
     font-family: monospace;
 }
@@ -61,4 +62,47 @@ nav a:hover {
     width:95%;
     height:60vh;
     padding:2.5%;
+}
+
+#themeToggle{
+    width: 21px;
+    height: 21px;
+    margin:5px;
+    background-color: black;
+    position: absolute;
+    border-radius: 50px;
+}
+
+#themeToggleCont {
+    position: absolute;
+    right: 10%;
+    top:5%;
+    font-size: 0px;
+}
+
+#themeToggleCont .themeSection {
+    font-size: 18px;
+    font-weight: bolder;
+    display: inline-block;
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0px;
+}
+
+#themeToggleCont .themeSection:nth-child(2) { 
+    background: #DFDFDF;
+    border-radius: 50px 0px 0px 50px;
+    border: 1px solid #444444;
+    border-right: none;
+    text-align: right;
+    padding-right: 10px;
+}
+
+#themeToggleCont .themeSection:nth-child(3) { 
+    background: #000000;
+    border-radius: 0px 50px 50px 0px;
+    color:white;
+    text-align: left;
+    padding-left: 10px;
 }
