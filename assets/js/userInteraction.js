@@ -11,7 +11,7 @@ function add_theme (file, name) {
 
 function toggle_theme() {
     if (!darkMode) {
-        addCSSFile("/css/", "darkTheme")
+        add_theme("/css/darkTheme.css", "darkTheme")
         darkMode = true;
     }else {
         document.getElementById("darkmode").remove();

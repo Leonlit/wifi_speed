@@ -34,10 +34,28 @@ class DBManagement:
         try:
             self.cursor.execute("SELECT * FROM wifi_speed")
             rows = self.cursor.fetchall()
-            newRows = []
+            up = []
+            down = [] 
+            ping = []
+            latency = []
+            time = []
+            date = []
             for row in rows:
-                newRows.append(self.row_factory(self.cursor, row))
-            return newRows
+                newData = self.row_factory(self.cursor, row)
+                up.append(newData["up"])
+                down.append(newData["down"])
+                ping.append(newData["ping"])
+                latency.append(newData["latency"])
+                time.append(newData["time"])
+                date.append(newData["date"])
+            return {
+                "up": up,
+                "down": down,
+                "latency": latency,
+                "ping": ping,
+                "time": time,
+                "date": date,
+            }
         except sqlite3.DatabaseError as ex:
             log_to_file(f"Error occured when retrieving data from database", ex)
             print("Something went wrong when getting the data from the Database...")
