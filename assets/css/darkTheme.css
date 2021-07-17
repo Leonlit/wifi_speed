@@ -35,3 +35,16 @@ nav a {
     border: 14px solid #333333;
     border-top: 14px solid white;
 }
+
+@media only screen and (min-width: 820px) {
+    nav {
+        background-color: transparent;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    nav a:hover{
+        background-color: white;
+        color: black;
+    }
+}

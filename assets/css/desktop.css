@@ -1,61 +1,40 @@
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 1025px) {
+    nav {
+        padding-top: 1%;
+        padding-bottom: 2%;
+    }
+
+    nav div {
+        margin-left: 2%;
+    }
+
+    nav a {
+        padding:1%;
+        border-radius: 10px;
+    }
+
+    nav a:hover{
+        font-size: 24px;
+        background-color: black;
+        color: white;
+    }
 
     #title {
-        text-align: center;
-        font-family: monospace;
+        margin-top: 2%;
     }
-    
+
+    #themeToggleCont {
+        right: 5%;
+        top:5%;
+    }
+
     #chartCont {
-        width:95%;
-        height:60vh;
-        padding:2.5%;
+        padding-top:0;
     }
-    
-    #filterCont input {
-        border: 1px solid #444444;
-        border-radius: 5px;
-        padding-left:5px;
-        font-size: 14px;
-    }
-    
-    #filterCont {
-        margin-top: -10px;
+
+    #filter {
+        margin-top: 1%;
         margin-left: 5%;
-        min-width:700px;
-        max-width: 800px;
-        display: inline-block;
+        padding:5px;
     }
-    
-    .filterItem {
-        margin-top:2.5%;
-    }
-    
-    label, #filterCont input {
-        margin-right:5%;
-    }
-    
-    #filterCont input {
-        width: 150px;
-    }
-    
-    #filterBtn {
-        float: right;
-    }
-    
-    footer {
-        font-size: 18px;
-        font-weight: bold;
-        font-family: monospace;
-        position: fixed;
-        right:3%;
-        bottom: 3%;
-        width:fit-content;
-        display: inline;
-        min-width:200px;
-    }
-    
-    footer > span {
-        margin-left:2vw;
-    }
-    
-    }
+}

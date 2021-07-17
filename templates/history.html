@@ -27,6 +27,14 @@
             <div><a href="/about/">About</a></div>
             <div><a target="_blank" href="https://www.google.com">Source code</a></div>
         </nav>
+        <select name="filter_selection" id="filter" onchange="change_chart_data()">
+            <option value="1">Last 24 Hour</option>
+            <option value="3">Last 3 days</option>
+            <option value="7">Last 7 days</option>
+            <option value="14">Last 14 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="0">Show all</option>
+        </select>
         <div id="themeToggleCont" onclick="toggle_theme()">
             <div id="themeToggle"></div>
             <div class="themeSection">light</div>
@@ -37,14 +45,6 @@
             <div id="loader"></div>
             <canvas id="wifi_data_chart"></canvas>
         </div>
-        <select name="filter_selection" id="filter" onchange="change_chart_data()">
-            <option value="1">Last 24 Hour</option>
-            <option value="3">Last 3 days</option>
-            <option value="7">Last 7 days</option>
-            <option value="14">Last 14 days</option>
-            <option value="30">Last 30 days</option>
-            <option value="0">Show all</option>
-        </select>
     </body>
 </html>
 <script src="/js/chartManagement.js"></script>

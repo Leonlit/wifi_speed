@@ -43,6 +43,9 @@
 <script src="/js/chartManagement.js"></script>
 <script src="/js/userInteraction.js"></script>
 <script>
+    if (screen.width < 1025) {
+        document.getElementById("title").style.marginTop="20%";
+    }
     let socket;
     let initial = true;
     namespace = '/wifi_data';

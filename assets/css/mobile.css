@@ -46,6 +46,7 @@ nav a {
     transition: 0.3s;
     text-decoration: none;
     color: black;
+    font-weight: bold;
 }
 
 nav a:hover {
@@ -53,7 +54,7 @@ nav a:hover {
 }
 
 #title {
-    margin-top: 30%;
+    margin-top: 5%;
     text-align: center;
     font-family: monospace;
 }
@@ -62,6 +63,14 @@ nav a:hover {
     width:95%;
     height:60vh;
     padding:2.5%;
+}
+
+#themeToggleCont {
+    position: absolute;
+    right: 10%;
+    top:5%;
+    font-size: 0px;
+    cursor: pointer;
 }
 
 #themeToggle{
@@ -73,13 +82,6 @@ nav a:hover {
     border-radius: 50px;
     transition: 0.5s;
     left:0px;
-}
-
-#themeToggleCont {
-    position: absolute;
-    right: 10%;
-    top:5%;
-    font-size: 0px;
 }
 
 #themeToggleCont .themeSection {
@@ -119,6 +121,7 @@ nav a:hover {
     font-family: monospace;
     box-shadow: 1px 1px 5px;
     border-radius: 5px;
+    margin-top: 30%;
 }
 
 #loader {
@@ -141,4 +144,18 @@ nav a:hover {
     100% { 
         transform: translate(-50%, -50%) rotate(360deg); 
     }
-  }
+}
+
+@media only screen and (min-width: 500px) {
+    #filter {
+        margin-top: 20%;
+    }
+
+    nav {
+        padding-bottom: 10%;
+    }
+
+    nav div {
+        margin-top: 3%;
+    }
+}

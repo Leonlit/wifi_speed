@@ -1,0 +1,40 @@
+@media only screen and (min-width: 820px) {
+    #hamburgerMenu {
+        display: none;
+    }
+
+    nav {
+        display: block;
+        position: initial;
+        background-color: transparent;
+        font-size: 1.5em;
+        text-align: left;
+        padding-bottom: 5%;
+        width: auto;
+    }
+
+    #themeToggleCont {
+        right: 5%;
+        top:4%;
+    }
+
+    #filter {
+        margin-left: 10%;
+        margin-top: 10%;
+    }
+
+    nav #navCloseBtn {
+        display: none;
+    }
+
+    nav div {
+        margin-left: 5%;
+        display: inline;
+    }
+
+    #title {
+        margin-top:5%;
+        font-size: 2.5em;
+    }
+
+}
