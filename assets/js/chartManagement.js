@@ -147,16 +147,20 @@ function add_data (newData) {
 }
 
 function update_chart_theme() {
-    if (chart.data.datasets.length > 1) {
-        let tempTitle = chart.options.plugins.title.text;
-        let config = defaultModeConfig;
-        if (darkMode) {
-            config = darkModeConfig;
+    try {
+        if (chart && chart.data.datasets.length > 1) {
+            let tempTitle = chart.options.plugins.title.text;
+            let config = defaultModeConfig;
+            if (darkMode) {
+                config = darkModeConfig;
+            }
+            config.plugins.title.text = tempTitle;
+            console.log(config);
+            chart.options = config;
+            chart.update();
         }
-        config.plugins.title.text = tempTitle;
-        console.log(config);
-        chart.options = config;
-        chart.update();
+    }catch (ex) {
+        console.log(ex);
     }
 }
 

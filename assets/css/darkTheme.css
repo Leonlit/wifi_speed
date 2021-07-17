@@ -3,9 +3,30 @@ body {
 }
 
 #title {
-    text-align: center;
+    color: white;
 }
 
 #hamburgerMenu div {
     border-top: 25px solid white;
+}
+
+#navCloseBtn {
+    border-bottom: 25px solid rgb(255, 255, 255);
+}
+
+nav {
+    background-color: rgb(37, 37, 37);
+}
+
+nav a {
+    color: white;
+}
+
+#themeToggleCont .themeSection {
+    box-shadow: 0px 0px 3px white;
+}
+
+#filter {
+    background-color: #101010;
+    color: white;
 }

@@ -46,6 +46,7 @@ class DBManagement:
             latency.append(newData["latency"])
             time.append(newData["time"])
             date.append(newData["date"])
+        
         return {
             "up": up,
             "down": down,
@@ -72,7 +73,9 @@ class DBManagement:
         limiter_date = separator[0]
         limiter_time = separator[1].split(".")[0]
         query = "SELECT * FROM wifi_speed WHERE ('date' >= ? AND 'time' >= ?) OR ('date' = ?) "
+        
         self.cursor.execute(query, (limiter_date, limiter_time, str(datetime.now()).split(" ")[0]))
         rows = self.cursor.fetchall()
         results = self.format_data(rows)
+
         return results
