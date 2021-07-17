@@ -19,7 +19,7 @@ nav {
     left:0;
     padding-top: 5%;
     width: 100vw;
-    background-color: #f1f1f1;
+    background-color: #e0e0e0;
     transition: 0.5s;
     padding-bottom: 20%;
     text-align: center;
@@ -120,3 +120,25 @@ nav a:hover {
     box-shadow: 1px 1px 5px;
     border-radius: 5px;
 }
+
+#loader {
+    position: absolute;
+    border: 14px solid #f3f3f3;
+    border-top: 14px solid #838e96;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  @keyframes spin {
+    0% { 
+        transform: translate(-50%, -50%) rotate(0deg); 
+    }
+    100% { 
+        transform: translate(-50%, -50%) rotate(360deg); 
+    }
+  }

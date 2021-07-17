@@ -30,3 +30,8 @@ nav a {
     background-color: #101010;
     color: white;
 }
+
+#loader {
+    border: 14px solid #333333;
+    border-top: 14px solid white;
+}

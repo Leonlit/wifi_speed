@@ -83,6 +83,7 @@ const darkModeConfig = {
 
 
 function draw_chart(initialValue, title) {
+    document.getElementById("loader").style.display = "none"
     if (chart) {
         chart.destroy();
     }
