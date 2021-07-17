@@ -45,6 +45,18 @@ def all_wifi_data():
     db.close_connection()
     emit("set_all_data", data )
 
+@socketio.on("get_filtered_data", namespace="/wifi_data")
+def filter_wifi_data(value):
+    db = DBManagement()
+    value = value
+    if value == 0:
+        data = db.get_all_data()
+    else:
+        data = db.get_filtered_data(value)
+    print(data)
+    db.close_connection()
+    emit("set_filtered_data", (data, value))
+
 
 # for providing js, css, media file and as well as media files
 @app.route('/js/<path:path>')

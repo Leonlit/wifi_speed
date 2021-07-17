@@ -83,6 +83,9 @@ const darkModeConfig = {
 
 
 function draw_chart(initialValue, title) {
+    if (chart) {
+        chart.destroy();
+    }
     let config = defaultModeConfig;
     config["plugins"]["title"]["text"] = title
     if (darkMode) {
