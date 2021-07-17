@@ -13,6 +13,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
         <title>Wifi Monitor</title>
         <link rel='stylesheet' href='/css/mobile.css'>
+        <link rel='stylesheet' href='/css/tablet.css'>
         <link rel='stylesheet' href='/css/desktop.css'>
     </head>
     <body>
@@ -26,8 +27,8 @@
             <div><a href="/about/">About</a></div>
             <div><a target="_blank" href="https://www.google.com">Source code</a></div>
         </nav>
-        <div id="themeToggleCont">
-            <div id="themeToggle" onclick="toggle_theme()"></div>
+        <div id="themeToggleCont" onclick="toggle_theme()">
+            <div id="themeToggle"></div>
             <div class="themeSection">light</div>
             <div class="themeSection">dark</div>
         </div>
