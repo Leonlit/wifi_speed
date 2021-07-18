@@ -15,7 +15,7 @@
 nav {
     z-index: 10;
     position: fixed;
-    top:-60%;
+    top:-100%;
     left:0;
     padding-top: 5%;
     width: 100vw;
@@ -63,6 +63,7 @@ nav a:hover {
     width:95%;
     height:60vh;
     padding:2.5%;
+    min-height: 350px;
 }
 
 #themeToggleCont {
@@ -134,6 +135,7 @@ nav a:hover {
     animation: spin 2s linear infinite;
     left: 50%;
     top: 50%;
+    margin-top:80px;
     transform: translate(-50%, -50%);
   }
   

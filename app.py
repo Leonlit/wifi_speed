@@ -56,7 +56,6 @@ def filter_wifi_data(value):
         data = db.get_all_data()
     else:
         data = db.get_filtered_data(value)
-    print(data)
     db.close_connection()
     emit("set_filtered_data", (data, value))
 
@@ -80,6 +79,6 @@ def route_External_File(path):
 
 if __name__ == '__main__':
     try:
-        app.run(debug = True)
+        app.run()
     except KeyboardInterrupt:
         print("Exiting the program.")

@@ -30,7 +30,9 @@ function toggle_theme() {
 
 function close_nav () {
     const nav = document.getElementsByTagName("nav")[0];
-    nav.style.top = "-60%";
+    const height = nav.clientHeight;
+    nav.style.top = `-${height}px`;
+    console.log(nav.style.top);
 }
 
 function open_nav () {
