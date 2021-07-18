@@ -1,6 +1,7 @@
 var chart;
 let darkMode = false;
 
+// default style for chart
 const defaultModeConfig = {
     maintainAspectRatio: false,
     responsive: true,
@@ -30,6 +31,7 @@ const defaultModeConfig = {
     }
 }
 
+//dark theme for the chart
 const darkModeConfig = {
     maintainAspectRatio: false,
     responsive: true,
@@ -81,7 +83,7 @@ const darkModeConfig = {
     },
 }
 
-
+//drawing initial chart to the page
 function draw_chart(initialValue, title) {
     document.getElementById("loader").style.display = "none"
     if (chart) {
@@ -125,6 +127,7 @@ function draw_chart(initialValue, title) {
     });
 }
 
+//this function is used when new data is to be updated onto the chart (used in real time monitor)
 const limit = 30;
 function add_data (newData) {
     const data = chart.data;
@@ -147,6 +150,7 @@ function add_data (newData) {
     }
 }
 
+// When the theme is changed, we need to update the configuration of the chart also
 function update_chart_theme() {
     try {
         if (chart && chart.data.datasets.length > 1) {
@@ -165,6 +169,7 @@ function update_chart_theme() {
     }
 }
 
+// just a simple function to check if things is an array or not
 function isArray (data) {
     return Array.isArray(data);
 }

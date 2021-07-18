@@ -1,3 +1,4 @@
+//when dark theme is toggled, add the dark theme css file into the page
 function add_theme (file, name) {
     var newlink = document.createElement("link");
     newlink.setAttribute("rel", "stylesheet");
@@ -9,6 +10,7 @@ function add_theme (file, name) {
     document.getElementsByTagName("head")[0].appendChild(newlink);
 }
 
+//for animating the toggling and changing the state of the theme
 function toggle_theme() {
     const toggle = document.getElementById("themeToggle");
     toggle.style.cssText = "";
