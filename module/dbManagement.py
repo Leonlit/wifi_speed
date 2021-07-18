@@ -31,6 +31,7 @@ class DBManagement:
             obj[column[0]] = row[idx]
         return obj
 
+    # formatting the data from arrays to objects array
     def format_data (self, rows):
         up = []
         down = [] 
@@ -56,6 +57,7 @@ class DBManagement:
             "date": date,
         }
 
+    # getting all data and return an object/dictionary
     def get_all_data(self):
         try:
             self.cursor.execute("SELECT * FROM wifi_speed")
@@ -67,15 +69,19 @@ class DBManagement:
             print("Something went wrong when getting the data from the Database...")
             print(ex)
 
+    # accept and value on how many data that's needed to be shown
+    # 1 = 1 days, 3 = 3 days and so on, max is 30
     def get_filtered_data(self, value):
-        limiter = str(datetime.now() - timedelta(hours = 24 * value))
-        separator = limiter.split(" ")
-        limiter_date = separator[0]
-        limiter_time = separator[1].split(".")[0]
-        query = "SELECT * FROM wifi_speed WHERE ('date' >= ? AND 'time' >= ?) OR ('date' = ?) "
-        
-        self.cursor.execute(query, (limiter_date, limiter_time, str(datetime.now()).split(" ")[0]))
-        rows = self.cursor.fetchall()
-        results = self.format_data(rows)
-
+        try:
+            limiter = str(datetime.now() - timedelta(hours = 24 * value))
+            separator = limiter.split(" ")
+            limiter_date = separator[0]
+            limiter_time = separator[1].split(".")[0]
+            query = "SELECT * FROM wifi_speed WHERE ('date' >= ? AND 'time' >= ?) OR ('date' = ?) "
+            
+            self.cursor.execute(query, (limiter_date, limiter_time, str(datetime.now()).split(" ")[0]))
+            rows = self.cursor.fetchall()
+            results = self.format_data(rows)
+        except Exception as ex:
+            print(ex.message)
         return results
