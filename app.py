@@ -12,7 +12,7 @@ from urllib.error import HTTPError, URLError
 
 from flask_socketio import SocketIO, emit
 from dotenv import load_dotenv
-from flask import Flask, render_template, send_from_directory, request
+from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
 load_dotenv()
@@ -53,6 +53,7 @@ def home_page():
 def history_page():
     return render_template("history.html")
 
+# socket function to run another speedtest on the wifi
 @socketio.on("new_wifi_data", namespace="/wifi_data")
 def wifi_data():
     timer = 30
@@ -68,6 +69,7 @@ def wifi_data():
         print("Something broke")
         print(ex)
 
+# get all data for the wifi monitor
 @socketio.on("get_all_data", namespace="/wifi_data")
 def all_wifi_data():
     ip_addr = get_ip_addr(0)
@@ -78,6 +80,7 @@ def all_wifi_data():
     db.close_connection()
     emit("set_all_data", data )
 
+# get certain range of data based on date and time
 @socketio.on("get_filtered_data", namespace="/wifi_data")
 def filter_wifi_data(value):
     ip_addr = get_ip_addr(0)
@@ -89,7 +92,6 @@ def filter_wifi_data(value):
         data = db.get_all_data()
     else:
         data = db.get_filtered_data(value)
-    print(data)
     db.close_connection()
     emit("set_filtered_data", (data, value))
 
@@ -113,6 +115,6 @@ def route_External_File(path):
 
 if __name__ == '__main__':
     try:
-        app.run(debug = True)
+        app.run()
     except KeyboardInterrupt:
         print("Exiting the program.")

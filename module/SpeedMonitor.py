@@ -1,6 +1,5 @@
 import speedtest
 import module.dbManagement as dbM
-import collections
 
 from module.logger import log_to_file
 from datetime import datetime
@@ -32,7 +31,6 @@ class SpeedMonitor():
             speed.results.share()
 
             results_dict = speed.results.dict()
-            print(results_dict)
 
             data = int(results_dict['download']) / 1024 / 1000
             download = str("%.2f" % round(data, 2)) 
@@ -50,7 +48,6 @@ class SpeedMonitor():
             latency = str("%.2f" % round(data, 2))
             # resultString = resultString + ", latency: " + ping
 
-            print(resultString)
             output_template['down'] = download
             output_template['up'] = upload
             output_template['ping'] = ping
@@ -63,6 +60,7 @@ class SpeedMonitor():
             self.__db = dbM.DBManagement(ip_addr)
             self.__db.store_data(output_template)
             self.__db.close_connection()
+
             return output_template
         except speedtest.SpeedtestBestServerFailure as ex:
             msg = f"Failed to connect to the best Server, retrying...."
@@ -79,21 +77,3 @@ class SpeedMonitor():
             print(msg, ex)
             log_to_file(msg, ex)
             return output_template
-
-    def get_pass_data(self):
-        print("Refreshing", datetime.now())
-        try:
-            entries = self.__db.get_data()               # get data from a sqlite3 db
-            dates = []
-            uploads = []
-            downloads = []
-            for data in entries:
-                uploads.append(data[0])
-                downloads.append(data[1])
-                dates.append(data[2])
-            dataTemplate = collections.namedtuple("data", ["uploads", "downloads", "dates"])
-            data = dataTemplate(uploads, downloads, dates)
-            return data
-        except Exception as ex:
-            log_to_file(f"Error occured when plotting chart", ex)
-            return

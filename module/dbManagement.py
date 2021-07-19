@@ -63,6 +63,7 @@ class DBManagement:
             else:
                 print(ex)
 
+    # formatting the data from arrays to objects array
     def format_data (self, rows):
         try:
             up = []
@@ -95,6 +96,7 @@ class DBManagement:
                 print(ex)
             log_to_file("Failed to convert all database content from row array to object array", ex)
 
+    # getting all data and return an object/dictionary
     def get_all_data(self):
         try:
             self.cursor.execute("SELECT * FROM {ip_addr}".format(ip_addr=self.constructIP(self.ip_addr)))
@@ -106,7 +108,10 @@ class DBManagement:
             print("Something went wrong when getting the data from the Database...")
             print(ex)
 
+    # accept and value on how many data that's needed to be shown
+    # 1 = 1 days, 3 = 3 days and so on, max is 30
     def get_filtered_data(self, value):
+<<<<<<< HEAD
 <<<<<<< Updated upstream
         limiter = str(datetime.now() - timedelta(hours = 24 * value))
         separator = limiter.split(" ")
@@ -119,11 +124,14 @@ class DBManagement:
         results = self.format_data(rows)
 
 =======
+=======
+>>>>>>> main
         try:
             limiter = str(datetime.now() - timedelta(hours = 24 * value))
             separator = limiter.split(" ")
             limiter_date = separator[0]
             limiter_time = separator[1].split(".")[0]
+<<<<<<< HEAD
             query = "SELECT * FROM ? WHERE ('date' >= ? AND 'time' >= ?) OR ('date' = ?) "
             
             self.cursor.execute(query, (self.constructIP(self.ip_addr), limiter_date, limiter_time, str(datetime.now()).split(" ")[0]))
@@ -136,4 +144,13 @@ class DBManagement:
             else:
                 print(ex)
 >>>>>>> Stashed changes
+=======
+            query = "SELECT * FROM wifi_speed WHERE ('date' >= ? AND 'time' >= ?) OR ('date' = ?) "
+            
+            self.cursor.execute(query, (limiter_date, limiter_time, str(datetime.now()).split(" ")[0]))
+            rows = self.cursor.fetchall()
+            results = self.format_data(rows)
+        except Exception as ex:
+            print(ex.message)
+>>>>>>> main
         return results

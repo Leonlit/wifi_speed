@@ -1,3 +1,4 @@
+//when dark theme is toggled, add the dark theme css file into the page
 function add_theme (file, name) {
     var newlink = document.createElement("link");
     newlink.setAttribute("rel", "stylesheet");
@@ -9,6 +10,7 @@ function add_theme (file, name) {
     document.getElementsByTagName("head")[0].appendChild(newlink);
 }
 
+//for animating the toggling and changing the state of the theme
 function toggle_theme() {
     const toggle = document.getElementById("themeToggle");
     toggle.style.cssText = "";
@@ -28,7 +30,8 @@ function toggle_theme() {
 
 function close_nav () {
     const nav = document.getElementsByTagName("nav")[0];
-    nav.style.top = "-60%";
+    nav.style.top = `-100%`;
+    console.log(nav.style.top);
 }
 
 function open_nav () {
