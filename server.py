@@ -1,7 +1,14 @@
+from module.logger import log_to_file
 from module.dbManagement import DBManagement
-import os
-from time import sleep
 from module.SpeedMonitor import SpeedMonitor
+from module.logger import log_to_file
+
+import os
+
+from time import sleep
+from json import load
+from urllib.request import urlopen
+from urllib.error import HTTPError, URLError
 
 from flask_socketio import SocketIO, emit
 from dotenv import load_dotenv
@@ -15,6 +22,29 @@ key = os.getenv('KEY')
 app.config['SECRET_KEY'] = key
 socketio = SocketIO(app)
 
+def get_ip_addr(case):
+    if case > 3:
+        return None
+    try:
+        return {
+            '0': urlopen("http://ip.42.pl/raw").read().decode("utf-8"),
+            '1': load(urlopen('http://jsonip.com'))['ip'],
+            '2': load(urlopen('http://httpbin.org/ip'))['origin'],
+            '3': load(urlopen('https://api.ipify.org/?format=json'))['ip']
+        }
+    except HTTPError as ex:
+        print(ex)
+        log_to_file("Data not retrieved because %s\nURL: %s", ex)
+    except URLError as ex:
+        print(ex)
+        log_to_file("Some error occured when trying to discover the public ip address of the ip address", ex)
+    except ValueError as ex:
+        print(ex)
+        log_to_file("Error while parsing the JSON data", ex)
+    return get_ip_addr(case + 1)
+
+
+# Web Routes 
 @app.route('/')
 def home_page():
     return render_template("index.html")
@@ -40,13 +70,19 @@ def wifi_data():
 
 @socketio.on("get_all_data", namespace="/wifi_data")
 def all_wifi_data():
-    db = DBManagement()
+    ip_addr = get_ip_addr(0)
+    if not ip_addr:
+        return 
+    db = DBManagement(ip_addr)
     data = db.get_all_data()
     db.close_connection()
     emit("set_all_data", data )
 
 @socketio.on("get_filtered_data", namespace="/wifi_data")
 def filter_wifi_data(value):
+    ip_addr = get_ip_addr(0)
+    if not ip_addr:
+        return 
     db = DBManagement()
     value = value
     if value == 0:

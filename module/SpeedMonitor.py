@@ -8,9 +8,6 @@ from datetime import datetime
 class SpeedMonitor():
     __db = None
 
-    def __init__(self):
-        self.__db = dbM.DBManagement()
-
     def real_time_monitor(self):
         time = str(datetime.now()).split(".")[0]
         time = time.split(" ")
@@ -25,7 +22,7 @@ class SpeedMonitor():
 
         servers = []
         threads = None
-        resultString = ""
+        # resultString = ""
         try:
             speed = speedtest.Speedtest()
             speed.get_servers(servers)
@@ -39,25 +36,31 @@ class SpeedMonitor():
 
             data = int(results_dict['download']) / 1024 / 1000
             download = str("%.2f" % round(data, 2)) 
-            resultString = "download: " + download
+            # resultString = "download: " + download
 
             data = int(results_dict['upload']) / 1024 / 1000
             upload = str("%.2f" % round(data, 2))
-            resultString = resultString + ", upload: " + upload
+            # resultString = resultString + ", upload: " + upload
 
             data = int(results_dict["ping"])
             ping = str("%.2f" % round(data, 2))
-            resultString = resultString + ", ping: " + ping
+            # resultString = resultString + ", ping: " + ping
 
             data = int(results_dict["server"]["latency"])
             latency = str("%.2f" % round(data, 2))
-            resultString = resultString + ", latency: " + ping
+            # resultString = resultString + ", latency: " + ping
 
             print(resultString)
             output_template['down'] = download
             output_template['up'] = upload
             output_template['ping'] = ping
             output_template['latency'] = latency
+
+            ip_addr = results_dict["client"]["ip"]
+
+            print("client ip", ip_addr)
+
+            self.__db = dbM.DBManagement(ip_addr)
             self.__db.store_data(output_template)
             self.__db.close_connection()
             return output_template
