@@ -7,6 +7,9 @@ from datetime import datetime
 class SpeedMonitor():
     __db = None
 
+    def __init__(self, ip_addr):
+        self.ip_addr = ip_addr
+
     def real_time_monitor(self):
         time = str(datetime.now()).split(".")[0]
         time = time.split(" ")
@@ -53,11 +56,10 @@ class SpeedMonitor():
             output_template['ping'] = ping
             output_template['latency'] = latency
 
-            ip_addr = results_dict["client"]["ip"]
+            print("client ip", self.ip_addr)
 
-            print("client ip", ip_addr)
-
-            self.__db = dbM.DBManagement(ip_addr)
+            self.__db = dbM.DBManagement(self.ip_addr)
+            self.__db.create_table_if_not_exists()
             self.__db.store_data(output_template)
             self.__db.close_connection()
 

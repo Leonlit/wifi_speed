@@ -1,3 +1,4 @@
+from math import log
 from module.logger import log_to_file
 from module.dbManagement import DBManagement
 from module.SpeedMonitor import SpeedMonitor
@@ -23,15 +24,16 @@ app.config['SECRET_KEY'] = key
 socketio = SocketIO(app)
 
 def get_ip_addr(case):
-    if case > 3:
-        return None
+    if case > 3 or case is None:
+        raise Exception("Could not get public IP for a device")
+    case = str(case)
     try:
         return {
             '0': urlopen("http://ip.42.pl/raw").read().decode("utf-8"),
             '1': load(urlopen('http://jsonip.com'))['ip'],
             '2': load(urlopen('http://httpbin.org/ip'))['origin'],
             '3': load(urlopen('https://api.ipify.org/?format=json'))['ip']
-        }
+        }[case]
     except HTTPError as ex:
         print(ex)
         log_to_file("Data not retrieved because %s\nURL: %s", ex)
@@ -41,6 +43,8 @@ def get_ip_addr(case):
     except ValueError as ex:
         print(ex)
         log_to_file("Error while parsing the JSON data", ex)
+    except Exception as ex:
+        log_to_file(ex, ex)
     return get_ip_addr(case + 1)
 
 
@@ -58,8 +62,11 @@ def history_page():
 def wifi_data():
     timer = 30
     try:
+        ip_addr = get_ip_addr(0)
+        if not ip_addr:
+            return 
         global initial
-        monitor = SpeedMonitor()
+        monitor = SpeedMonitor(ip_addr)
         data = monitor.real_time_monitor()
         if not initial:
             sleep(timer)
@@ -78,15 +85,16 @@ def all_wifi_data():
     db = DBManagement(ip_addr)
     data = db.get_all_data()
     db.close_connection()
-    emit("set_all_data", data )
+    emit("set_all_data", data)
 
 # get certain range of data based on date and time
 @socketio.on("get_filtered_data", namespace="/wifi_data")
 def filter_wifi_data(value):
     ip_addr = get_ip_addr(0)
     if not ip_addr:
-        return 
-    db = DBManagement()
+        return
+    print(ip_addr)
+    db = DBManagement(ip_addr)
     value = value
     if value == 0:
         data = db.get_all_data()
@@ -115,6 +123,6 @@ def route_External_File(path):
 
 if __name__ == '__main__':
     try:
-        app.run()
+        app.run(debug=True)
     except KeyboardInterrupt:
         print("Exiting the program.")
