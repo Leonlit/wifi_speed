@@ -32,7 +32,7 @@
             <div class="themeSection">light</div>
             <div class="themeSection">dark</div>
         </div>
-        <h1 id="title">WIFI Speed Monitor</h1>
+        <h1 id="title" class="extraMarginTop">WIFI Speed Monitor</h1>
         <div id="chartCont">
             <div id="loader"></div>
             <canvas id="wifi_data_chart"></canvas>
@@ -43,13 +43,14 @@
 <script src="/js/chartManagement.js"></script>
 <script src="/js/userInteraction.js"></script>
 <script>
-    (function () {
-        close_nav();
-    })
-    
-    if (screen.width < 1025) {
-        document.getElementById("title").style.marginTop="20%";
+    console.log("test");
+    console.log(document.body.clientWidth);
+    if (document.body.clientWidth < 1025) {
+        console.log("test 2");
+        document.getElementById("title").style.marginTop="100px";
     }
+    close_nav();
+
     let socket;
     let initial = true;
     namespace = '/wifi_data';
@@ -61,11 +62,11 @@
 
     socket.on('connect', function() {
         console.log("connected");
+        socket.emit("get_ip")
         socket.emit('new_wifi_data')
     });
 
     socket.on("new_data", function(data){
-        console.log(data);
         if (initial) {
             draw_chart(data, "Real time monitor");
             initial = false;
@@ -73,5 +74,9 @@
             add_data(data)
         }
         socket.emit('new_wifi_data');
+    })
+
+    socket.on("got_ip", function (ip) {
+        document.getElementById("title").innerHTML += " " + ip;
     })
 </script>

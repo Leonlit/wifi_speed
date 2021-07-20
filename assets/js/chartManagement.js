@@ -160,7 +160,6 @@ function update_chart_theme() {
                 config = darkModeConfig;
             }
             config.plugins.title.text = tempTitle;
-            console.log(config);
             chart.options = config;
             chart.update();
         }

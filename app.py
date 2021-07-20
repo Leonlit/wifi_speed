@@ -97,8 +97,9 @@ def get_list():
         return
     db = DBManagement(ip_addr)
     results = db.get_table_list()
+    tbName= db.tbName
     db.close_connection()
-    emit("set_table_list", results)
+    emit("set_table_list", (results, tbName))
 
 # get certain range of data based on date and time
 @socketio.on("get_filtered_data", namespace="/wifi_data")
@@ -119,11 +120,17 @@ def filter_wifi_data(data):
         else:
             result = db.get_filtered_data(data["value"])
         db.close_connection()
-        emit("set_filtered_data", (result, data["value"], ip_addr))
+        emit("set_filtered_data", (result, data["value"]))
     except ValueError as ex:
         log_to_file(str(ex), ex)
         print(ex)
 
+
+@socketio.on("get_ip", namespace="/wifi_data")
+def get_user_pub_ip():
+    ip = get_ip_addr(0)
+    print("public", ip)
+    emit("got_ip", ip)
 
 # for providing js, css, media file and as well as media files
 @app.route('/js/<path:path>')

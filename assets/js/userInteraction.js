@@ -39,11 +39,15 @@ function open_nav () {
     nav.style.top = "0";
 }
 
-function set_up_table_list (data) {
+function set_up_table_list (data, ip_addr) {
     const selection = document.getElementById("ip_filter");
     data.forEach(name => {
-        name = get_back_ip_addr(name);
         newOption = document.createElement("option");
+        console.log(name, ip_addr);
+        if (name == ip_addr) {
+            newOption.selected = true;
+        }
+        name = get_back_ip_addr(name);
         newOption.setAttribute("value", name);
         newOption.innerText = name;
         selection.appendChild(newOption);

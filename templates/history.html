@@ -54,6 +54,7 @@
     close_nav()
     let socket;
     let initial = true;
+    let tableList
     const chartTitle = {
         0: "All wifi data", 
         1: "Pass 24 hour wifi data", 
@@ -65,9 +66,8 @@
     namespace = '/wifi_data';
     socket = io(namespace);
 
-    socket.on("set_table_list", function(data){
-        console.log(data);
-        set_up_table_list(data);
+    socket.on("set_table_list", function(data, ip_addr){
+        set_up_table_list(data, ip_addr);
     })
 
     socket.on("connect_error", (err) => {
@@ -75,24 +75,22 @@
     });
 
     socket.on('connect', function() {
-        console.log("connected");
         socket.emit("get_table_list")
+        socket.emit("get_ip")
         socket.emit("get_filtered_data", {value: 1, ip_addr: ""})
     });
 
-    socket.on("set_filtered_data", function(data, title, ip_addr){
-        console.log("filtered Data", data, title);
+    socket.on("set_filtered_data", function(data, title){
         draw_chart(data, chartTitle[title]);
     })
 
-    function search_index (arr, value) {
-        return arr.indexOf(value);
-    }
+    socket.on("got_ip", function (ip) {
+        document.getElementById("title").innerText += " " + ip;
+    })
     
     function change_chart_data () {
         const selects = document.getElementById("filter").value;
         const ip = document.getElementById("ip_filter").value;
-        console.log(selects);
         socket.emit("get_filtered_data", {value: parseInt(selects), ip_addr: ip});
     }
 </script>
