@@ -20,6 +20,17 @@ class DBManagement:
             else:
                 print(ex)
 
+    def get_table_list(self):
+        try:
+            query = "select name from sqlite_master where type = 'table'"
+            self.cursor.execute(query)
+            results = [name[0] for name in self.cursor.fetchall()]
+            print("tables", results)
+            return results
+        except Exception as ex:
+            print(ex)
+            log_to_file("Failed to get all tables name", ex)
+
     def create_table_if_not_exists(self):
         try:
             query = f"CREATE TABLE IF NOT EXISTS \"{self.tbName}\" (up real, down real, ping real, latency real, time timestamp, date timestamp)"

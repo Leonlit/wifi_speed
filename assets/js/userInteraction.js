@@ -38,3 +38,18 @@ function open_nav () {
     const nav = document.getElementsByTagName("nav")[0];
     nav.style.top = "0";
 }
+
+function set_up_table_list (data) {
+    const selection = document.getElementById("ip_filter");
+    data.forEach(name => {
+        name = get_back_ip_addr(name);
+        newOption = document.createElement("option");
+        newOption.setAttribute("value", name);
+        newOption.innerText = name;
+        selection.appendChild(newOption);
+    });
+}
+
+function get_back_ip_addr(ip) {
+    return ip.replaceAll("_", ".")
+}

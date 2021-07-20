@@ -26,7 +26,7 @@ nav a {
     box-shadow: 0px 0px 3px white;
 }
 
-#filter {
+.selection {
     background-color: #101010;
     color: white;
 }

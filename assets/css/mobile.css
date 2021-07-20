@@ -115,7 +115,7 @@ nav a:hover {
     padding-left: 10px;
 }
 
-#filter {
+.selection {
     font-size: 14px;
     font-weight: bolder;
     padding: 1%;
@@ -149,7 +149,7 @@ nav a:hover {
 }
 
 @media only screen and (min-width: 500px) {
-    #filter {
+    .selection {
         margin-top: 20%;
     }
 

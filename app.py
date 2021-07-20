@@ -1,10 +1,9 @@
-from math import log
 from module.logger import log_to_file
 from module.dbManagement import DBManagement
 from module.SpeedMonitor import SpeedMonitor
 from module.logger import log_to_file
 
-import os
+import os, re
 
 from time import sleep
 from json import load
@@ -22,6 +21,9 @@ initial = True
 key = os.getenv('KEY')
 app.config['SECRET_KEY'] = key
 socketio = SocketIO(app)
+
+def check_ip (ip):
+    return re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",ip)
 
 def get_ip_addr(case):
     if case > 3 or case is None:
@@ -44,7 +46,7 @@ def get_ip_addr(case):
         print(ex)
         log_to_file("Error while parsing the JSON data", ex)
     except Exception as ex:
-        log_to_file(ex, ex)
+        log_to_file(str(ex), ex)
     return get_ip_addr(case + 1)
 
 
@@ -87,21 +89,40 @@ def all_wifi_data():
     db.close_connection()
     emit("set_all_data", data)
 
-# get certain range of data based on date and time
-@socketio.on("get_filtered_data", namespace="/wifi_data")
-def filter_wifi_data(value):
+# get the list of tables
+@socketio.on("get_table_list", namespace="/wifi_data")
+def get_list():
     ip_addr = get_ip_addr(0)
     if not ip_addr:
         return
-    print(ip_addr)
     db = DBManagement(ip_addr)
-    value = value
-    if value == 0:
-        data = db.get_all_data()
-    else:
-        data = db.get_filtered_data(value)
+    results = db.get_table_list()
     db.close_connection()
-    emit("set_filtered_data", (data, value))
+    emit("set_table_list", results)
+
+# get certain range of data based on date and time
+@socketio.on("get_filtered_data", namespace="/wifi_data")
+def filter_wifi_data(data):
+    try:
+        if not data["ip_addr"]:
+            ip_addr = get_ip_addr(0)
+            if not ip_addr:
+                return
+        else:
+            ip_addr = data["ip_addr"]
+        if not check_ip(ip_addr):
+            raise ValueError(f"User provided a wrong ip address{ip_addr}") 
+        db = DBManagement(ip_addr)
+        data = data
+        if data == 0:
+            data = db.get_all_data()
+        else:
+            result = db.get_filtered_data(data["value"])
+        db.close_connection()
+        emit("set_filtered_data", (result, data["value"], ip_addr))
+    except ValueError as ex:
+        log_to_file(str(ex), ex)
+        print(ex)
 
 
 # for providing js, css, media file and as well as media files
