@@ -40,16 +40,18 @@
     </body>
 </html>
 
+<script src="/js/sessionManagement.js"></script>
 <script src="/js/chartManagement.js"></script>
 <script src="/js/userInteraction.js"></script>
 <script>
-    console.log("test");
     console.log(document.body.clientWidth);
     if (document.body.clientWidth < 1025) {
         console.log("test 2");
         document.getElementById("title").style.marginTop="100px";
     }
+
     close_nav();
+    get_theme_by_session();
 
     let socket;
     let initial = true;

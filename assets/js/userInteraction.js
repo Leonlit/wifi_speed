@@ -19,11 +19,13 @@ function toggle_theme() {
         toggle.style.left = "84%";
         toggle.style.backgroundColor = "white";
         darkMode = true;
+        set_theme_session();
     }else {
         document.getElementById("darkmode").remove();
         toggle.style.left = "0px";
         toggle.style.backgroundColor = "black";
         darkMode = false;
+        remove_theme_session();
     }
     update_chart_theme();
 }

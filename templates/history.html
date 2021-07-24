@@ -48,10 +48,13 @@
         </div>
     </body>
 </html>
+<script src="/js/sessionManagement.js"></script>
 <script src="/js/chartManagement.js"></script>
 <script src="/js/userInteraction.js"></script>
 <script>
     close_nav()
+    get_theme_by_session();
+    
     let socket;
     let initial = true;
     let tableList
