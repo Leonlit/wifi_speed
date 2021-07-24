@@ -145,16 +145,18 @@ class DBManagement:
     # 1 = 1 days, 3 = 3 days and so on, max is 30
     def get_filtered_data(self, value):
         try:
+            print(value)
             limiter = str(datetime.now() - timedelta(hours = 24 * value))
             separator = limiter.split(" ")
             limiter_date = separator[0]
             limiter_time = separator[1].split(".")[0]
             if not self.is_table_exists(self.tbName):
                 return None
-            query = f"SELECT * FROM \"{self.tbName}\" WHERE ('date' >= ? AND 'time' >= ?) OR ('date' = ?)"
-            self.cursor.execute(query, (limiter_date, limiter_time, str(datetime.now()).split(" ")[0]))
+            query = f"SELECT * FROM \"{self.tbName}\" WHERE (date = ? AND time >= ?) OR (date >= ?)"
+            self.cursor.execute(query, (limiter_date, limiter_time, limiter_date))
             rows = self.cursor.fetchall()
             results = self.format_data(rows)
+            print(results)
             return results
         except Exception as ex:
             log_to_file("Error when getting filtered data from database", ex)
