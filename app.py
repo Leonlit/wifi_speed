@@ -62,7 +62,7 @@ def history_page():
 # socket function to run another speedtest on the wifi
 @socketio.on("new_wifi_data", namespace="/wifi_data")
 def wifi_data():
-    timer = 30
+    timer = 10
     try:
         ip_addr = get_ip_addr(0)
         if not ip_addr:
@@ -151,6 +151,7 @@ def route_External_File(path):
 
 if __name__ == '__main__':
     try:
-        app.run(debug=True)
+        app.run(debug=False)
     except KeyboardInterrupt:
         print("Exiting the program.")
+ 
