@@ -23,6 +23,10 @@
         margin-top: 2%;
     }
 
+    article {
+        font-size: 1.5em;
+    }
+
     #themeToggleCont {
         right: 5%;
         top:5%;

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='description' content='test'>
+        <meta name='keywords' content='HTMl, CSS, JS,'>
+        <meta name='author' content='Leon Lit'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon/logo_180.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/icon/logo_32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/icon/logo_16.png">
+        <title>Wifi Monitor - About</title>
+        <link rel='stylesheet' href='/css/mobile.css'>
+        <link rel='stylesheet' href='/css/tablet.css'>
+        <link rel='stylesheet' href='/css/desktop.css'>
+    </head>
+    <body>
+        <div id="hamburgerMenu" onclick="open_nav()">
+            <div></div>
+        </div>
+        <nav>
+            <div class="closeBtn" id="navCloseBtn" onclick="close_nav()"></div>
+            <div><a href="/">Home</a></div>
+            <div><a href="/history/">History Monitor</a></div>
+            <div><a href="/about/">About</a></div>
+            <div><a target="_blank" href="https://www.google.com">Source code</a></div>
+        </nav>
+        <div id="themeToggleCont" onclick="toggle_theme()">
+            <div id="themeToggle"></div>
+            <div class="themeSection">light</div>
+            <div class="themeSection">dark</div>
+        </div>
+        <article>
+            <h1 id="title">WIFI Speed Monitor - About the application</h1>
+            This is a web application created using Python's <a>Flask framework</a>, a simple framework for building web applications using Python. 
+            While using a simple sqlite3 database to store the network data. This application utilized the python speedtest module to get the internet speed.
+            The application also utilized socket with socket.io library to continuously update the value shown on the frontend.
+            <br><br>
+            The project was originally created to plot charts using Python's matplotlib of my University's wifi speed. But later, I thought, why not just make 
+            a new website to display the chart data nicely. The initial project was fun to show my friends just how bad my hostel internet speed was. The images 
+            shown in the assets folder and Github are not the speedtest of the hostel internet speed but the internet speed of my home wifi.<br>
+            
+            <img src="/images/old-interface.jpeg" caption="Initial interface using python's Matplotlib library"/>
+            <img src="/images/light-theme.png" caption="The interface now with Flask framework"/>
+        </article>
+    </body>
+</html>
+<script src="/js/sessionManagement.js"></script>
+<script src="/js/chartManagement.js"></script>
+<script src="/js/userInteraction.js"></script>

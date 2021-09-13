@@ -26,15 +26,13 @@ def check_ip (ip):
     return re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",ip)
 
 def get_ip_addr(case):
-    if case > 3 or case is None:
+    if case > 1 or case is None:
         raise Exception("Could not get public IP for a device")
     case = str(case)
     try:
         return {
             '0': urlopen("http://ip.42.pl/raw").read().decode("utf-8"),
-            '1': load(urlopen('http://jsonip.com'))['ip'],
-            '2': load(urlopen('http://httpbin.org/ip'))['origin'],
-            '3': load(urlopen('https://api.ipify.org/?format=json'))['ip']
+            '1': load(urlopen('http://httpbin.org/ip'))['origin'],
         }[case]
     except HTTPError as ex:
         print(ex)
@@ -47,8 +45,8 @@ def get_ip_addr(case):
         log_to_file("Error while parsing the JSON data", ex)
     except Exception as ex:
         log_to_file(str(ex), ex)
-    return get_ip_addr(case + 1)
-
+    print(case)
+    return get_ip_addr(int(case) + 1)
 
 # Web Routes 
 @app.route('/')
@@ -58,6 +56,10 @@ def home_page():
 @app.route('/history/')
 def history_page():
     return render_template("history.html")
+
+@app.route('/about/')
+def about_page():
+    return render_template("about.html")
 
 # socket function to run another speedtest on the wifi
 @socketio.on("new_wifi_data", namespace="/wifi_data")
@@ -145,9 +147,9 @@ def route_CSS_File(path):
 def route_Image_File(path):
     return send_from_directory('assets/icon', path)
 
-@app.route('/external/<path:path>')
+@app.route('/images/<path:path>')
 def route_External_File(path): 
-    return send_from_directory('assets/external', path)
+    return send_from_directory('assets/images', path)
 
 if __name__ == '__main__':
     try:

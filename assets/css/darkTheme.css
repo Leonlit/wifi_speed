@@ -6,6 +6,10 @@ body {
     color: white;
 }
 
+article {
+    color: rgb(192, 192, 192);
+}
+
 #hamburgerMenu div {
     border-top: 25px solid white;
 }
