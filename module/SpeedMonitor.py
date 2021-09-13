@@ -19,7 +19,8 @@ class SpeedMonitor():
             'time': time[1],
             'date': time[0],
             'ping': 0,
-            'latency': 0
+            'latency': 0,
+            'ip_addr': self.ip_addr
         }
 
         servers = []

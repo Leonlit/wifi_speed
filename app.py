@@ -1,7 +1,9 @@
+from urllib import request
 from module.logger import log_to_file
 from module.dbManagement import DBManagement
 from module.SpeedMonitor import SpeedMonitor
 from module.logger import log_to_file
+from module.ipManagement import IPManagement
 
 import os, re
 
@@ -12,7 +14,7 @@ from urllib.error import HTTPError, URLError
 
 from flask_socketio import SocketIO, emit
 from dotenv import load_dotenv
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 
 app = Flask(__name__)
 load_dotenv()
@@ -22,10 +24,12 @@ key = os.getenv('KEY')
 app.config['SECRET_KEY'] = key
 socketio = SocketIO(app)
 
+
 def check_ip (ip):
     return re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",ip)
 
 def get_ip_addr(case):
+    print("get_ip_addr function triggered")
     if case > 1 or case is None:
         raise Exception("Could not get public IP for a device")
     case = str(case)
@@ -65,16 +69,25 @@ def about_page():
 @socketio.on("new_wifi_data", namespace="/wifi_data")
 def wifi_data():
     timer = 10
+    sid = request.sid
+    ipM = IPManagement()
     try:
-        ip_addr = get_ip_addr(0)
+        ip_addr = ipM.get_sid_ip(sid)
         if not ip_addr:
-            return 
+            ip_addr = get_ip_addr(0)
+        if not ip_addr:
+            ipM.close_connection()
+            return
+        else:
+            ipM.store_ip_address(sid, ip_addr)
+        print("user ip address is ", ip_addr)
         global initial
         monitor = SpeedMonitor(ip_addr)
         data = monitor.real_time_monitor()
         if not initial:
             sleep(timer)
         initial = False
+        ipM.close_connection()
         emit("new_data", data)
     except Exception as ex:
         print("Something broke")
@@ -83,56 +96,61 @@ def wifi_data():
 # get all data for the wifi monitor
 @socketio.on("get_all_data", namespace="/wifi_data")
 def all_wifi_data():
-    ip_addr = get_ip_addr(0)
+    sid = request.sid
+    ipM = IPManagement()
+    ip_addr = ipM.get_sid_ip(sid)
     if not ip_addr:
+        ipM.close_connection()
         return 
     db = DBManagement(ip_addr)
     data = db.get_all_data()
     db.close_connection()
+    ipM.close_connection()
     emit("set_all_data", data)
 
 # get the list of tables
 @socketio.on("get_table_list", namespace="/wifi_data")
 def get_list():
-    ip_addr = get_ip_addr(0)
-    if not ip_addr:
-        return
+    ipM = IPManagement()
+    ip_addr = ""
     db = DBManagement(ip_addr)
     results = db.get_table_list()
     tbName= db.tbName
     db.close_connection()
+    ipM.close_connection()
     emit("set_table_list", (results, tbName))
 
 # get certain range of data based on date and time
 @socketio.on("get_filtered_data", namespace="/wifi_data")
 def filter_wifi_data(data):
     try:
+        sid = request.sid
+        ipM = IPManagement()
         if not data["ip_addr"]:
-            ip_addr = get_ip_addr(0)
+            ip_addr = ipM.get_sid_ip(sid)
             if not ip_addr:
+                ip_addr = get_ip_addr(0)
+            if not ip_addr:
+                ipM.close_connection()
                 return
+            else:
+                ipM.store_ip_address(sid, ip_addr)
         else:
             ip_addr = data["ip_addr"]
         if not check_ip(ip_addr):
             raise ValueError(f"User provided a wrong ip address{ip_addr}") 
         db = DBManagement(ip_addr)
-        data = data
         if data == 0:
             data = db.get_all_data()
         else:
             result = db.get_filtered_data(data["value"])
         db.close_connection()
-        emit("set_filtered_data", (result, data["value"]))
+        ipM.close_connection()
+        emit("set_filtered_data", (result, {"ip_addr": ip_addr}))
     except ValueError as ex:
         log_to_file(str(ex), ex)
         print(ex)
-
-
-@socketio.on("get_ip", namespace="/wifi_data")
-def get_user_pub_ip():
-    ip = get_ip_addr(0)
-    print("public", ip)
-    emit("got_ip", ip)
+    
 
 # for providing js, css, media file and as well as media files
 @app.route('/js/<path:path>')
@@ -153,7 +171,7 @@ def route_External_File(path):
 
 if __name__ == '__main__':
     try:
-        app.run(debug=False)
+        app.run(debug=False, host="0.0.0.0")
     except KeyboardInterrupt:
         print("Exiting the program.")
  

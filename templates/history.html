@@ -54,7 +54,8 @@
 <script>
     close_nav()
     get_theme_by_session();
-    
+    let ipNotSet = true;
+
     let socket;
     let initial = true;
     let tableList
@@ -79,16 +80,16 @@
 
     socket.on('connect', function() {
         socket.emit("get_table_list")
-        socket.emit("get_ip")
         socket.emit("get_filtered_data", {value: 1, ip_addr: ""})
     });
 
-    socket.on("set_filtered_data", function(data, title){
+    socket.on("set_filtered_data", function(data){
+        console.log(data);
+        if (ipNotSet) {
+            document.getElementById("title").innerText += " " + data["ip_addr"];
+            ipNotSet = false;
+        }
         draw_chart(data, chartTitle[title]);
-    })
-
-    socket.on("got_ip", function (ip) {
-        document.getElementById("title").innerText += " " + ip;
     })
     
     function change_chart_data () {

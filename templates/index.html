@@ -64,21 +64,17 @@
 
     socket.on('connect', function() {
         console.log("connected");
-        socket.emit("get_ip")
         socket.emit('new_wifi_data')
     });
 
     socket.on("new_data", function(data){
         if (initial) {
+            document.getElementById("title").innerText += " " + data["ip_addr"];
             draw_chart(data, "Real time monitor");
             initial = false;
         }else {
             add_data(data)
         }
         socket.emit('new_wifi_data');
-    })
-
-    socket.on("got_ip", function (ip) {
-        document.getElementById("title").innerHTML += " " + ip;
     })
 </script>
