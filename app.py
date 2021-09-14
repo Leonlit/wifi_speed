@@ -104,6 +104,7 @@ def all_wifi_data():
         return 
     db = DBManagement(ip_addr)
     data = db.get_all_data()
+    data["ip_addr"] = ip_addr
     db.close_connection()
     ipM.close_connection()
     emit("set_all_data", data)
@@ -144,9 +145,10 @@ def filter_wifi_data(data):
             data = db.get_all_data()
         else:
             result = db.get_filtered_data(data["value"])
+            result["ip_addr"] = ip_addr
         db.close_connection()
         ipM.close_connection()
-        emit("set_filtered_data", (result, {"ip_addr": ip_addr}))
+        emit("set_filtered_data", (result,))
     except ValueError as ex:
         log_to_file(str(ex), ex)
         print(ex)
