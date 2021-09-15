@@ -113,7 +113,16 @@ def all_wifi_data():
 @socketio.on("get_table_list", namespace="/wifi_data")
 def get_list():
     ipM = IPManagement()
-    ip_addr = ""
+    sid = request.sid
+    ipM = IPManagement()
+    ip_addr = ipM.get_sid_ip(sid)
+    if not ip_addr:
+        ip_addr = get_ip_addr(0)
+    if not ip_addr:
+        ipM.close_connection()
+        return
+    else:
+        ipM.store_ip_address(sid, ip_addr)
     db = DBManagement(ip_addr)
     results = db.get_table_list()
     tbName= db.tbName
@@ -145,10 +154,10 @@ def filter_wifi_data(data):
             data = db.get_all_data()
         else:
             result = db.get_filtered_data(data["value"])
-            result["ip_addr"] = ip_addr
+            print("result", result)
         db.close_connection()
         ipM.close_connection()
-        emit("set_filtered_data", (result,))
+        emit("set_filtered_data", {'data': result, 'title': data["value"], 'ip_addr': ip_addr})
     except ValueError as ex:
         log_to_file(str(ex), ex)
         print(ex)

@@ -1,6 +1,5 @@
 function get_theme_by_session () {
     const isDarkTheme = get_theme_session();
-    console.log(isDarkTheme);
     if (isDarkTheme !== null) {
         toggle_theme();
     }

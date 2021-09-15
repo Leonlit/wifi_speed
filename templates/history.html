@@ -84,9 +84,18 @@
     });
 
     socket.on("set_filtered_data", function(data){
-        console.log(data);
+        title = data["title"]
+        ip_addr = data["ip_addr"]
+        data = data["data"]
+        if (data == null || data["up"] == undefined) {
+            data = []
+        }
         if (ipNotSet) {
-            document.getElementById("title").innerText += " " + data["ip_addr"];
+            let ip = "";
+            if (ip_addr != undefined) {
+                ip = ip_addr;
+            }
+            document.getElementById("title").innerText += " " + ip;
             ipNotSet = false;
         }
         draw_chart(data, chartTitle[title]);

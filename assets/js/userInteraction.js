@@ -33,7 +33,6 @@ function toggle_theme() {
 function close_nav () {
     const nav = document.getElementsByTagName("nav")[0];
     nav.style.top = `-100%`;
-    console.log(nav.style.top);
 }
 
 function open_nav () {
@@ -45,7 +44,6 @@ function set_up_table_list (data, ip_addr) {
     const selection = document.getElementById("ip_filter");
     data.forEach(name => {
         newOption = document.createElement("option");
-        console.log(name, ip_addr);
         if (name == ip_addr) {
             newOption.selected = true;
         }

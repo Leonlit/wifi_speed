@@ -94,36 +94,58 @@ function draw_chart(initialValue, title) {
     if (darkMode) {
         config = darkModeConfig;
     }
+    let dataset = [];
+    if (initialValue.up.length != 0) {
+        dataset = [
+            {
+                borderColor: ["#A3BAFF"],
+                data: isArray(initialValue["down"]) ? initialValue["down"]: [initialValue["down"]],
+                label: "Download Speed"
+            },
+            {
+                borderColor: ["#a300cc"],
+                data: isArray(initialValue["up"]) ? initialValue["up"]: [initialValue["up"]],
+                label: "Upload Speed"
+            },
+            {
+                borderColor: ["#e69e88"],
+                data: isArray(initialValue["ping"]) ? initialValue["ping"]: [initialValue["ping"]],
+                label: "Ping"
+            },
+            {
+                borderColor: ["#fc2605"],
+                data: isArray(initialValue["latency"]) ? initialValue["latency"]: [initialValue["latency"]],
+                label: "Latency"
+            },
+        ]
+    }
+    
     let ctx = document.getElementById("wifi_data_chart").getContext("2d");
     chart = new Chart(ctx, {
         type: "line",
         data: {
             labels: isArray(initialValue["time"])? initialValue["time"]: [initialValue["time"]],
-            datasets: [
-                {
-                    borderColor: ["#A3BAFF"],
-                    data: isArray(initialValue["down"]) ? initialValue["down"]: [initialValue["down"]],
-                    label: "Download Speed"
-                },
-                {
-                    borderColor: ["#a300cc"],
-                    data: isArray(initialValue["up"]) ? initialValue["up"]: [initialValue["up"]],
-                    label: "Upload Speed"
-                },
-                {
-                    borderColor: ["#e69e88"],
-                    data: isArray(initialValue["ping"]) ? initialValue["ping"]: [initialValue["ping"]],
-                    label: "Ping"
-                },
-                {
-                    borderColor: ["#fc2605"],
-                    data: isArray(initialValue["latency"]) ? initialValue["latency"]: [initialValue["latency"]],
-                    label: "Latency"
-                },
-                
-            ]
+            datasets: dataset
         },
-        options: config
+        options: config,
+        plugins: [
+            {
+                afterDraw: function(chart) {
+                if (chart.data.datasets.length === 0) {
+                    // No data is present
+                    var width = chart.width;
+                    var height = chart.height
+                    chart.clear();
+        
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = "16px normal 'Helvetica Nueue'";
+                    ctx.fillText('No data to display', width / 2, height / 2);
+                    ctx.restore();
+                }
+            }
+        }]
     });
 }
 

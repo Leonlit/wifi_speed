@@ -22,7 +22,7 @@ class DBManagement:
 
     def get_table_list(self):
         try:
-            query = "select name from sqlite_master where type = 'table'"
+            query = "select name from sqlite_master where type = 'table' and name not like 'SID_%';"
             self.cursor.execute(query)
             results = [name[0] for name in self.cursor.fetchall()]
             print("tables", results)
@@ -40,9 +40,8 @@ class DBManagement:
             print(ex)
             log_to_file(f"Unable to create table ({self.tbName}) for the database", ex)
 
-    def is_table_exists(self, name):
+    def is_table_exists(self):
         try:
-            print("test", name)
             query = f"SELECT name FROM sqlite_master WHERE type='table' AND name=\"{self.tbName}\""
             self.cursor.execute(query)
             if self.cursor.fetchone()[0]:
@@ -112,14 +111,18 @@ class DBManagement:
                 time.append(newData["time"])
                 date.append(newData["date"])
             
-            return {
-                "up": up,
-                "down": down,
-                "latency": latency,
-                "ping": ping,
-                "time": time,
-                "date": date,
-            }
+            if len(rows) != 0:
+                result = {
+                    "up": up,
+                    "down": down,
+                    "latency": latency,
+                    "ping": ping,
+                    "time": time,
+                    "date": date,
+                }
+            else:
+                result = {}
+            return result
         except Exception as ex:
             if hasattr(ex, 'message'):
                 print(ex.message)
@@ -130,7 +133,7 @@ class DBManagement:
     # getting all data and return an object/dictionary
     def get_all_data(self):
         try:
-            if not self.is_table_exists(self.tbName):
+            if not self.is_table_exists():
                 return None
             self.cursor.execute(f"SELECT * FROM \"{self.tbName}\"")
             rows = self.cursor.fetchall()
@@ -150,7 +153,7 @@ class DBManagement:
             separator = limiter.split(" ")
             limiter_date = separator[0]
             limiter_time = separator[1].split(".")[0]
-            if not self.is_table_exists(self.tbName):
+            if not self.is_table_exists():
                 return None
             query = f"SELECT * FROM \"{self.tbName}\" WHERE (date = ? AND time >= ?) OR (date >= ?)"
             self.cursor.execute(query, (limiter_date, limiter_time, limiter_date))
