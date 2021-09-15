@@ -93,22 +93,6 @@ def wifi_data():
         print("Something broke")
         print(ex)
 
-# get all data for the wifi monitor
-@socketio.on("get_all_data", namespace="/wifi_data")
-def all_wifi_data():
-    sid = request.sid
-    ipM = IPManagement()
-    ip_addr = ipM.get_sid_ip(sid)
-    if not ip_addr:
-        ipM.close_connection()
-        return 
-    db = DBManagement(ip_addr)
-    data = db.get_all_data()
-    data["ip_addr"] = ip_addr
-    db.close_connection()
-    ipM.close_connection()
-    emit("set_all_data", data)
-
 # get the list of tables
 @socketio.on("get_table_list", namespace="/wifi_data")
 def get_list():
@@ -150,7 +134,7 @@ def filter_wifi_data(data):
         if not check_ip(ip_addr):
             raise ValueError(f"User provided a wrong ip address{ip_addr}") 
         db = DBManagement(ip_addr)
-        if data == 0:
+        if data["value"] == 0:
             data = db.get_all_data()
         else:
             result = db.get_filtered_data(data["value"])
