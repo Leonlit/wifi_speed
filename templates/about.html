@@ -31,17 +31,24 @@
             <div class="themeSection">dark</div>
         </div>
         <article>
-            <h1 id="title">WIFI Speed Monitor - About the application</h1>
-            This is a web application created using Python's <a>Flask framework</a>, a simple framework for building web applications using Python. 
-            While using a simple sqlite3 database to store the network data. This application utilized the python speedtest module to get the internet speed.
-            The application also utilized socket with socket.io library to continuously update the value shown on the frontend.
-            <br><br>
-            The project was originally created to plot charts using Python's matplotlib of my University's wifi speed. But later, I thought, why not just make 
-            a new website to display the chart data nicely. The initial project was fun to show my friends just how bad my hostel internet speed was. The images 
-            shown in the assets folder and Github are not the speedtest of the hostel internet speed but the internet speed of my home wifi.<br>
-            
-            <img src="/images/old-interface.jpeg" caption="Initial interface using python's Matplotlib library"/>
-            <img src="/images/light-theme.png" caption="The interface now with Flask framework"/>
+            <div id="content">
+                <h1 id="title">WIFI Speed Monitor - About the application</h1>
+                This is a web application created using Python's <a>Flask framework</a>, a simple framework for building web applications using Python. 
+                While using a simple sqlite3 database to store the network data. This application utilized the python speedtest module to get the internet speed.
+                The application also utilized socket with socket.io library to continuously update the value shown on the frontend.
+                <br><br>
+                The project was originally created to plot charts using Python's matplotlib of my University's wifi speed. But later, I thought, why not just make 
+                a new website to display the chart data nicely. The initial project was fun to show my friends just how bad my hostel internet speed was. The image 
+                shown as the first one is the monitor on my hostel wifi while the second one is my home network  .<br>
+            </div>
+            <figure>
+                <img src="/images/old-interface.jpeg" caption="Initial interface using python's Matplotlib library"/>
+                <figcaption>The application on the first try</figcaption>
+            </figure>
+            <figure>
+                <img src="/images/light-theme.png" caption="The interface now with Flask framework"/>
+                <figcaption>The application after transitioning to web application</figcaption>
+            </figure>
         </article>
     </body>
 </html>

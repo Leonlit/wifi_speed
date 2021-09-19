@@ -61,9 +61,9 @@ nav a:hover {
 }
 
 article {
+    text-align: center;
     width: 80%;
     margin-left: 10%;
-    text-align: justify;
 }
 
 article #title {
@@ -72,6 +72,10 @@ article #title {
     text-align: center;
     font-family: monospace;
     font-size: 1.6em;
+}
+
+#content {
+    text-align: justify;
 }
 
 img {
