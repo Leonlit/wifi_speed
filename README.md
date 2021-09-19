@@ -17,13 +17,23 @@ To run the project simply execute (after all packages/libaries has been download
 python app.py
 ```
 
-To run the project for all other devices in your network, use this command instead:
-```
-flask run  --host=0.0.0.0
-```
+## Screenshots
 
-## tech and tools used
+### Main page (light theme)
+<img src="https://github.com/Leonlit/wifi_speed/blob/main/assets/images/light-theme.png?raw=true" alt="Main page of the application(light theme)" height="400px">
+
+### Main page (dark theme)
+<img src="https://github.com/Leonlit/wifi_speed/blob/main/assets/images/dark-theme.png?raw=true" alt="Main page of the application(light theme)" height="400px">
+
+### History page (light theme)
+<img src="https://github.com/Leonlit/wifi_speed/blob/main/assets/images/light-theme-history.png?raw=true" alt="Main page of the application(light theme)" height="400px">
+
+### History page (dark theme)
+<img src="https://github.com/Leonlit/wifi_speed/blob/main/assets/images/dark-theme-history.png?raw=true" alt="Main page of the application(light theme)" height="400px">
+
+## tech/libraries/framework used
  - The big three trio in building websites (HTML, CSS & JS)
  - Socket.io
  - Flask
  - SQLITE3
+ - Chart.js
