@@ -19,6 +19,12 @@ python app.py
 
 ## Screenshots
 
+### Initial Matplotlib application
+<img src="https://github.com/Leonlit/wifi_speed/blob/main/assets/images/old-interface.jpeg?raw=true" alt="Main page of the application(light theme)" height="400px">
+
+
+<br/><br/>
+### After changing the application into a web application
 ### Main page (light theme)
 <img src="https://github.com/Leonlit/wifi_speed/blob/main/assets/images/light-theme.png?raw=true" alt="Main page of the application(light theme)" height="400px">
 
