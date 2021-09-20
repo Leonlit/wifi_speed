@@ -78,9 +78,13 @@ article #title {
     text-align: justify;
 }
 
+figure {
+    margin: none;
+}
+
 img {
     width: 90%;
-    max-width: 600px;
+    max-width:800px;
     margin-top:5%;
     margin-bottom:5%;
     box-shadow: 1px 3px 5px grey;

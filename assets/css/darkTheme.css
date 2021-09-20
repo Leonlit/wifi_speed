@@ -40,6 +40,10 @@ nav a {
     border-top: 14px solid white;
 }
 
+figcaption {
+    color:white;
+}
+
 @media only screen and (min-width: 820px) {
     nav {
         background-color: transparent;
