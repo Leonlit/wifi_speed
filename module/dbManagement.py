@@ -25,7 +25,6 @@ class DBManagement:
             query = "select name from sqlite_master where type = 'table' and name not like 'SID_%';"
             self.cursor.execute(query)
             results = [name[0] for name in self.cursor.fetchall()]
-            print("tables", results)
             return results
         except Exception as ex:
             print(ex)

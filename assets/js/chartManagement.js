@@ -46,7 +46,6 @@ const darkModeConfig = {
                 color: 'white',
             },
             title: {
-                color: 'white',
                 display: true,
                 text: 'Value'
             }
@@ -63,7 +62,6 @@ const darkModeConfig = {
                 maxTicksLimit: 10
             },
             title: {
-                color: 'white',
                 display: true,
                 text: 'Time'
             }
@@ -72,13 +70,10 @@ const darkModeConfig = {
     plugins: {
         legend: {
             display:true,
-            labels: {
-                color: 'white'
-            }
+
         },
         title: {
             display: true,
-            color: "white"
         },
     },
 }
@@ -90,12 +85,14 @@ function draw_chart(initialValue, title) {
         chart.destroy();
     }
     let config = defaultModeConfig;
+    Chart.defaults.color = "black";
     config["plugins"]["title"]["text"] = title
     if (darkMode) {
         config = darkModeConfig;
+        Chart.defaults.color = "white";
     }
     let dataset = [];
-    if (initialValue.up.length != 0) {
+    if (initialValue.hasOwnProperty("up") && initialValue.up.length != 0) {
         dataset = [
             {
                 borderColor: ["#A3BAFF"],
@@ -127,26 +124,27 @@ function draw_chart(initialValue, title) {
             labels: isArray(initialValue["time"])? initialValue["time"]: [initialValue["time"]],
             datasets: dataset
         },
-        options: config,
-        plugins: [
-            {
-                afterDraw: function(chart) {
-                if (chart.data.datasets.length === 0) {
-                    // No data is present
-                    var width = chart.width;
-                    var height = chart.height
-                    chart.clear();
-        
-                    ctx.save();
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.font = "16px normal 'Helvetica Nueue'";
-                    ctx.fillText('No data to display', width / 2, height / 2);
-                    ctx.restore();
-                }
-            }
-        }]
+        options: config
     });
+    if_no_data();
+}
+
+function if_no_data() {
+    if (chart.data.datasets.length === 0) {
+        let ctx = document.getElementById("wifi_data_chart").getContext("2d");
+        // No data is present
+        var width = chart.width;
+        var height = chart.height
+        chart.clear();
+
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.fillStyle = darkMode ? "white" : "black"
+        ctx.textBaseline = 'middle';
+        ctx.font = "16px normal 'Helvetica Nueue'";
+        ctx.fillText('No data to display', width / 2, height / 2);
+        ctx.restore();
+    }
 }
 
 //this function is used when new data is to be updated onto the chart (used in real time monitor)
@@ -175,6 +173,7 @@ function add_data (newData) {
 // When the theme is changed, we need to update the configuration of the chart also
 function update_chart_theme() {
     try {
+        if_no_data();
         if (chart && chart.data.datasets.length > 1) {
             let tempTitle = chart.options.plugins.title.text;
             let config = defaultModeConfig;

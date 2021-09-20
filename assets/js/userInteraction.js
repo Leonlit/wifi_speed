@@ -42,16 +42,25 @@ function open_nav () {
 
 function set_up_table_list (data, ip_addr) {
     const selection = document.getElementById("ip_filter");
+    let selected = false;
     data.forEach(name => {
         newOption = document.createElement("option");
         if (name == ip_addr) {
             newOption.selected = true;
+            selected = true;
         }
         name = get_back_ip_addr(name);
         newOption.setAttribute("value", name);
         newOption.innerText = name;
         selection.appendChild(newOption);
     });
+    if (!selected) {
+        newOption = document.createElement("option");
+        ip_addr = get_back_ip_addr(ip_addr);
+        newOption.setAttribute("value", ip_addr);
+        newOption.innerText = ip_addr;
+        selection.appendChild(newOption);
+    }
 }
 
 function get_back_ip_addr(ip) {

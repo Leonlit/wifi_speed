@@ -135,10 +135,9 @@ def filter_wifi_data(data):
             raise ValueError(f"User provided a wrong ip address{ip_addr}") 
         db = DBManagement(ip_addr)
         if data["value"] == 0:
-            data = db.get_all_data()
+            result = db.get_all_data()
         else:
             result = db.get_filtered_data(data["value"])
-            print("result", result)
         db.close_connection()
         ipM.close_connection()
         emit("set_filtered_data", {'data': result, 'title': data["value"], 'ip_addr': ip_addr})
