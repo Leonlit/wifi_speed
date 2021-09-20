@@ -29,7 +29,6 @@ def check_ip (ip):
     return re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",ip)
 
 def get_ip_addr(case):
-    print("get_ip_addr function triggered")
     if case > 1 or case is None:
         raise Exception("Could not get public IP for a device")
     case = str(case)
@@ -49,7 +48,6 @@ def get_ip_addr(case):
         log_to_file("Error while parsing the JSON data", ex)
     except Exception as ex:
         log_to_file(str(ex), ex)
-    print(case)
     return get_ip_addr(int(case) + 1)
 
 # Web Routes 
@@ -80,7 +78,6 @@ def wifi_data():
             return
         else:
             ipM.store_ip_address(sid, ip_addr)
-        print("user ip address is ", ip_addr)
         global initial
         monitor = SpeedMonitor(ip_addr)
         data = monitor.real_time_monitor()
@@ -90,7 +87,7 @@ def wifi_data():
         ipM.close_connection()
         emit("new_data", data)
     except Exception as ex:
-        print("Something broke")
+        log_to_file(str(ex), ex)
         print(ex)
 
 # get the list of tables

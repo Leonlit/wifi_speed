@@ -46,7 +46,8 @@ class DBManagement:
             if self.cursor.fetchone()[0]:
                 return True
         except TypeError as ex:
-            print("table does not exists")
+            print()
+            log_to_file("table does not exists", ex)
             return False
         except Exception as ex:
             print(ex)
@@ -70,7 +71,7 @@ class DBManagement:
                                 data["time"], data["date"]))
             self.conn.commit()
         except sqlite3.DatabaseError as ex:
-            print("Failed to write new data into table")
+            log_to_file("Failed to write new data into table", ex)
             if hasattr(ex, 'message'):
                 print(ex.message)
             else:
