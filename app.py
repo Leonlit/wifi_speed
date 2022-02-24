@@ -137,6 +137,7 @@ def filter_wifi_data(data):
             result = db.get_filtered_data(data["value"])
         db.close_connection()
         ipM.close_connection()
+        print("The chosen ip is " + ip_addr)
         emit("set_filtered_data", {'data': result, 'title': data["value"], 'ip_addr': ip_addr})
     except ValueError as ex:
         log_to_file(str(ex), ex)

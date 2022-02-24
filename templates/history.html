@@ -84,20 +84,21 @@
     });
 
     socket.on("set_filtered_data", function(data){
-        title = data["title"]
-        ip_addr = data["ip_addr"]
+        let title = data["title"]
+        let ip_addr = data["ip_addr"]
+        console.log(ip_addr);
         data = data["data"]
         if (data == null || data["up"] == undefined) {
             data = []
         }
-        if (ipNotSet) {
-            let ip = "";
-            if (ip_addr != undefined) {
-                ip = ip_addr;
-            }
-            document.getElementById("title").innerText += " " + ip;
-            ipNotSet = false;
+        
+        let ip = "";
+        if (ip_addr != undefined) {
+            ip = ip_addr;
         }
+        document.getElementById("title").innerText = "WIFI Speed Monitor " + ip;
+        ipNotSet = false;
+        
         draw_chart(data, chartTitle[title]);
     })
     
